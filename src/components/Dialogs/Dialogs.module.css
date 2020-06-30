@@ -1,0 +1,28 @@
+.dialogs {
+    display: grid;
+    height: 100%;
+    grid-template-columns: 20% auto;
+    grid-template-areas: "d m";
+    background-color: navajowhite;
+}
+
+.dialogsItems {
+    grid-area: d;
+    padding: 10%;
+    text-decoration: none;
+    color: white;
+}
+
+.item a.active {
+    color: red;
+}
+/*NavLink == a*/
+.item a{
+    color: black;
+    text-decoration: none;
+}
+
+.messages {
+    grid-area: m;
+    padding: 5%;
+}
