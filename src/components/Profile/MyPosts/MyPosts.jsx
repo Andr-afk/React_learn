@@ -3,8 +3,9 @@ import classes from './MyPosts.module.css'
 import Post from './Post/Post.jsx'
 
 
-const MyPosts = () => {
+const MyPosts = (props) => {
     //debugger;
+    let post_elements = props.dataPost.map(post=>(<Post message={post.message} image={post.image} count_like={post.count_like}/>))
     return (
         <div>
             MyPosts
@@ -27,4 +28,3 @@ export default MyPosts
 
 
 
-let post_elements = posts.map(post=>(<Post message={post.message} image={post.image} count_like={post.count_like}/>))
