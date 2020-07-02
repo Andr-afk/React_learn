@@ -9,7 +9,7 @@ const Profile = (props) => {
         <div className={classes.content}>
             <ProfileInfo mainImage="https://klike.net/uploads/posts/2019-11/1574605225_22.jpg"
                          avaImage="https://www.tokkoro.com/picsup/5439677-funny-wallpapers.jpg"/>
-            <MyPosts dataPost={props.dataPost}/>
+            <MyPosts posts={props.state.posts}/>
         </div>
     )
 }
