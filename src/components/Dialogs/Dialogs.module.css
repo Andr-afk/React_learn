@@ -3,14 +3,15 @@
     height: 100%;
     grid-template-columns: 20% auto;
     grid-template-areas: "d m";
-    background-color: navajowhite;
 }
 
 .dialogsItems {
+    height: 100%;
     grid-area: d;
     padding: 10%;
     text-decoration: none;
     color: white;
+    background-color: #FDBAFF;
 }
 
 .item a.active {

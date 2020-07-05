@@ -1,9 +1,11 @@
 import React from 'react'
 import classes from './Nav.module.css'
-import {NavLink} from 'react-router-dom' /*Это объект*/
+import {NavLink} from 'react-router-dom'
+import OftenFriend from "./OftenFriend/OftenFriend"; /*Это объект*/
 
 
-const Nav = () => {
+const Nav = (props) => {
+    let friend_elements = props.data.friends.map(friend => (<OftenFriend name={friend.name} image={friend.image}/>))
     return (
         <nav className={classes.nav}>
             <div className={classes.item}>
@@ -20,6 +22,9 @@ const Nav = () => {
             </div>
             <div className={classes.item}>
                 <NavLink to="/settings" activeClassName={classes.active}>Settings</NavLink>
+            </div>
+            <div className={classes.OftenFriends}>
+                {friend_elements}
             </div>
         </nav>
     )

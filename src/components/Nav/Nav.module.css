@@ -2,14 +2,28 @@
     grid-area: n;
     background-color: #834089;
     padding: 10%;
+    margin-bottom: 70px;
+    height: 100%;
+}
+
+.item{
+    padding: 10px;
+    font-size: 18px;
 }
 
 .item a{
     color: white;
     text-decoration: none;
+
 }
 
 .item a.active{
     color: red;
 }
+
+.OftenFriends{
+    margin-top: 40px;
+}
+
+
 

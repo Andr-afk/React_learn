@@ -1,0 +1,30 @@
+.OftenFriends img{
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    margin: 10px;
+    grid-area: image;
+}
+
+.OftenFriends a{
+    text-decoration: none;
+}
+
+.name{
+    color: white;
+    grid-area: a;
+    margin-top:20px;
+    margin-left:10px;
+    grid-area: a;
+}
+
+.OftenFriends a{
+    display: grid;
+    grid-template-columns: 80px auto;
+    grid-template-areas: "image a";
+
+}
+
+.OftenFriends{
+    margin-top: 10px;
+}

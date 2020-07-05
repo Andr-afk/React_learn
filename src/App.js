@@ -9,17 +9,17 @@ import News from "./components/News/News"
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
 
-{/*Роуты всегда смотрят на URl, им не требутеся перезагрузка*/
-}
+// Роуты всегда смотрят на URl, им не требутеся перезагрузка
+
 
 const App = (props) => {
     return (
         <BrowserRouter>
             <div className="app-wrapper">
                 <Header/>
-                <Nav/>
+                <Nav data={props.state.NavPage}/>
                 <div className="app-wrapper-content">
-                    <Route path="/profile" render={() => <Profile state={props.state.ProfilePage}/>}/>
+                    <Route path="/profile" render={() => <Profile state={props.state.ProfilePage} addPost={props.addPost}/>}/>
                     <Route path="/dialogs" render={()=> <Dialogs state={props.state.DialogsPage}/>}/>
                     <Route path="/news" render={() => <News/>}/>
                     <Route path="/music" render={() => <Music/>}/>
