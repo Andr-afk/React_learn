@@ -1,23 +1,34 @@
 import React from 'react'
 import classes from './MyPosts.module.css'
 import Post from './Post/Post.jsx'
+import {addPostActionCreator, updateTextPostActionCreator} from "../../../redux/state";
 
 
 const MyPosts = (props) => {
-    //debugger;
-    let post_elements = props.posts.map(post => (
+
+    let post_elements = props.ProfilePage.posts.map(post => (
         <Post message={post.message} image={post.image} count_like={post.count_like}/>))
+
+
     let newPostElement = React.createRef()
+
+
     let addPost = () => {
-        props.addPost(newPostElement.current.value)
-        newPostElement.current.value = ""
+        props.dispatch(addPostActionCreator())
     }
+
+
+    let changeTextPost = () => {
+        let text = newPostElement.current.value
+        props.dispatch(updateTextPostActionCreator(text))
+    }
+
 
     return (
         <div>
             MyPosts
             <div>
-                <textarea ref={newPostElement}></textarea>
+                <textarea onChange={changeTextPost} ref={newPostElement} value={props.ProfilePage.newPostText}/>
                 <button onClick={addPost}>Send</button>
             </div>
             <div className={classes.posts}>
