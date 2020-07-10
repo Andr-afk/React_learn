@@ -10,10 +10,10 @@ import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
 
 
+
 // Роуты всегда смотрят на URl, им не требутеся перезагрузка
 
 const App = (props) => {
-    window.data = props.store
 
     return (
         <BrowserRouter>

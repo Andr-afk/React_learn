@@ -1,9 +1,6 @@
-//action type
-
-const ADD_POST = 'ADD-POST'
-const UPDATE_TEXT_POST = 'UPDATE-TEXT-POST'
-const UPDATE_TEXT_DIALOG = 'UPDATE-TEXT-DIALOG'
-const NEW_MESSAGE = 'NEW-MESSAGE'
+import profileReducer from "./profilePage-reducer";
+import dialogsReducer from "./dialogsPage-reducer";
+import navReducer from "./NavPage-reducer";
 
 
 let store = {
@@ -35,7 +32,7 @@ let store = {
                     count_like: 30
                 },
             ],
-            newPostText: "Hey, write me here! Right now!!!"
+            newPostText: ""
         },
         DialogsPage: {
             dialogs: [
@@ -89,52 +86,11 @@ let store = {
     },
 
     dispatch(action) {
-
-        switch (action.type) {
-            case ADD_POST:
-                let post = {
-                    id: 4,
-                    image: "https://avatars.mds.yandex.net/get-pdb/788379/a5ec9e90-5b8f-4888-8c46-ad5ead630338/s1200?webp=false",
-                    message: this._state.ProfilePage.newPostText,
-                    count_like: 0
-                }
-                this._state.ProfilePage.posts.push(post)
-                this._state.ProfilePage.newPostText = ""
-                this._renderTree(this.get_state)
-                break
-            case UPDATE_TEXT_POST:
-                this._state.ProfilePage.newPostText = action.text
-                this._renderTree(this.get_state)
-                break
-            case UPDATE_TEXT_DIALOG:
-                this._state.DialogsPage.newDialogText = action.text
-                this._renderTree(this.get_state)
-                break
-            case NEW_MESSAGE:
-                let mess = {
-                    id: 6,
-                    message: store._state.DialogsPage.newDialogText
-                }
-                store._state.DialogsPage.messages.push(mess)
-                this._renderTree(this._state)
-                break
-            default:
-                console.log('this type is not exist in dispatch')
-                break
-        }
+        this._state.ProfilePage = profileReducer(this._state.ProfilePage, action)
+        this._state.DialogsPage = dialogsReducer(this._state.DialogsPage, action)
+        this._state.NavPage = navReducer(this._state.NavPage, action)
+        this._renderTree(this.get_state)
     }
 }
 
 export default store
-
-
-// action creators
-
-// export const addPostActionCreator = () => {
-//     return {type: ADD_POST}
-// }
-
-export const addPostActionCreator = () => ({type: ADD_POST}) //скобочки ставим из-за того, что компилятор фигурные скобки воспринимает как тело функции, в нашем случае это объект
-export const updateTextPostActionCreator = (text) => ({type: UPDATE_TEXT_POST, text: text})
-export const updateTextDialogActionCreator = (text) => ({type: UPDATE_TEXT_DIALOG, text: text})
-export const newMessageActionCreator = () => ({type: NEW_MESSAGE})
