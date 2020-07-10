@@ -1,4 +1,4 @@
-import profileReducer from "./profilePage-reducer";
+/*import profileReducer from "./profilePage-reducer";
 import dialogsReducer from "./dialogsPage-reducer";
 import navReducer from "./NavPage-reducer";
 
@@ -93,4 +93,4 @@ let store = {
     }
 }
 
-export default store
+export default store*/
