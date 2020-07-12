@@ -6,14 +6,10 @@ import * as serviceWorker from './serviceWorker';
 import store from "./redux/redux-store";
 
 
-let renderTree = (state) => {
+let renderTree = () => {
 debugger;
     ReactDOM.render(
-        <App state={state}
-             // addPost={store.addPost.bind(store)}
-             // UpdateTextPost={store.UpdateTextPost.bind(store)}
-             dispatch={store.dispatch.bind(store)}
-        />,
+        <App store={store}/>,
         document.getElementById('root')
     );
 
@@ -23,7 +19,6 @@ debugger;
 renderTree(store.getState())
 
 store.subscribe(()=>{
-    let state = store.getState()
-    renderTree(state)
+    renderTree()
 }) // subscribe dont deliver data in default, we using anonymous function
 

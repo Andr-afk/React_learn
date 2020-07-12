@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from './Profile.module.css'
-import MyPosts from './MyPosts/MyPosts.jsx'
+import MyPostsContainer from './MyPosts/MyPostsContainer'
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 
 
@@ -10,9 +10,7 @@ const Profile = (props) => {
         <div className={classes.content}>
             <ProfileInfo mainImage="https://klike.net/uploads/posts/2019-11/1574605225_22.jpg"
                          avaImage="https://www.tokkoro.com/picsup/5439677-funny-wallpapers.jpg"/>
-            <MyPosts
-                ProfilePage={props.ProfilePage}
-                dispatch={props.dispatch}/>
+            <MyPostsContainer store={props.store}/>
         </div>
     )
 }

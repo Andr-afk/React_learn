@@ -4,7 +4,7 @@ import {Route, BrowserRouter} from "react-router-dom";
 import Header from './components/Header/Header';
 import Nav from './components/Nav/Nav';
 import Profile from './components/Profile/Profile';
-import Dialogs from "./components/Dialogs/Dialogs";
+import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import News from "./components/News/News"
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
@@ -13,21 +13,15 @@ import Settings from "./components/Settings/Settings";
 // Роуты всегда смотрят на URl, им не требутеся перезагрузка
 
 const App = (props) => {
-debugger;
+    debugger;
     return (
         <BrowserRouter>
             <div className="app-wrapper">
                 <Header/>
-                <Nav NavPage={props.state.NavPage}/>
+                <Nav NavPage={props.store.getState().NavPage}/>
                 <div className="app-wrapper-content">
-                    <Route path="/profile" render={() => <Profile
-                        ProfilePage={props.state.ProfilePage}
-                        dispatch={props.dispatch}
-                    />}/>
-                    <Route path="/dialogs" render={() => <Dialogs
-                        DialogsPage={props.state.DialogsPage}
-                        dispatch={props.dispatch}
-                    />}/>
+                    <Route path="/profile" render={() => <Profile store={props.store}/>}/>
+                    <Route path="/dialogs" render={() => <DialogsContainer store={props.store}/>}/>
                     <Route path="/news" render={() => <News/>}/>
                     <Route path="/music" render={() => <Music/>}/>
                     <Route path="/settings" render={() => <Settings/>}/>
