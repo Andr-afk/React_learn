@@ -1,11 +1,13 @@
 import React from 'react'
 import classes from './Nav.module.css'
 import {NavLink} from 'react-router-dom'
-import OftenFriend from "./OftenFriend/OftenFriend"; /*Это объект*/
+import OftenFriend from "./OftenFriend/OftenFriend";
+
 
 
 const Nav = (props) => {
-    debugger;
+
+
     let friend_elements = props.NavPage.friends.map(friend => (<OftenFriend name={friend.name} image={friend.image}/>))
 
     return (
@@ -30,6 +32,8 @@ const Nav = (props) => {
             </div>
         </nav>
     )
+
+
 }
 
 export default Nav
