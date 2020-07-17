@@ -5,15 +5,16 @@ import Dialog from "./Dialog/Dialog";
 
 
 const Dialogs = (props) => {
-    let dialog_elements = props.DialogsPage.dialogs.map(dialog => (<Dialog name={dialog.name} id={dialog.id}/>))
+    let dialog_elements = props.DialogsPage.dialogs.map(dialog => (<Dialog name={dialog.name} key={dialog.id}/>))
 
-    let message_elements = props.DialogsPage.messages.map(mess => <Message text={mess.message}/>)
+    let message_elements = props.DialogsPage.messages.map(mess => <Message text={mess.message} key={mess.id}/>)
 
     let addMessage = () => {
         props.addMessage()
     }
 
     let updateTextDialog = (e) => {
+        debugger;
         props.updateTextDialog(e.target.value)
     }
 

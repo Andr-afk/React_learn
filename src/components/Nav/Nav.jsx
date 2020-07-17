@@ -4,11 +4,11 @@ import {NavLink} from 'react-router-dom'
 import OftenFriend from "./OftenFriend/OftenFriend";
 
 
-
 const Nav = (props) => {
 
 
-    let friend_elements = props.NavPage.friends.map(friend => (<OftenFriend name={friend.name} image={friend.image}/>))
+    let friend_elements = props.NavPage.friends.map(friend => (
+        <OftenFriend name={friend.name} image={friend.image} key={friend.id}/>))
 
     return (
         <nav className={classes.nav}>
@@ -26,6 +26,9 @@ const Nav = (props) => {
             </div>
             <div className={classes.item}>
                 <NavLink to="/settings" activeClassName={classes.active}>Settings</NavLink>
+            </div>
+            <div className={classes.item}>
+                <NavLink to="/find_users" activeClassName={classes.active}>Find Users</NavLink>
             </div>
             <div className={classes.OftenFriends}>
                 {friend_elements}

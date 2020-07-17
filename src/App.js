@@ -8,12 +8,12 @@ import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import News from "./components/News/News"
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
+import FindUsersContainer from "./components/FindUsers/FindUsersContainer";
 
 
 // Роуты всегда смотрят на URl, им не требутеся перезагрузка
 
 const App = (props) => {
-    debugger;
     return (
         <BrowserRouter>
             <div className="app-wrapper">
@@ -25,6 +25,7 @@ const App = (props) => {
                     <Route path="/news" render={() => <News/>}/>
                     <Route path="/music" render={() => <Music/>}/>
                     <Route path="/settings" render={() => <Settings/>}/>
+                    <Route path="/find_users" render={()=> <FindUsersContainer/>}/>
                 </div>
             </div>
         </BrowserRouter>
