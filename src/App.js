@@ -27,6 +27,7 @@ const App = (props) => {
                     <Route path="/settings" render={() => <Settings/>}/>
                     <Route path="/find_users" render={()=> <FindUsersContainer/>}/>
                 </div>
+                <footer>Something text in the end</footer>
             </div>
         </BrowserRouter>
     )

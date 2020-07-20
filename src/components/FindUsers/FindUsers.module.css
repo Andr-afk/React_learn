@@ -64,7 +64,3 @@
     background: rgb(53, 167, 110);
 }
 
-.main button:active {
-    background: rgb(33, 147, 90);
-    box-shadow: 0 3px rgb(33, 147, 90) inset;
-}

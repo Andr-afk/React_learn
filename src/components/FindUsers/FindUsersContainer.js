@@ -1,8 +1,7 @@
 import React from "react";
 import FindUsers from "./FindUsers"
 import {connect} from "react-redux";
-import {changeSubscribeAction} from "../../redux/findUsersPage-reducer";
-
+import {changeSubscribeAction, setUserAction} from "../../redux/findUsersPage-reducer";
 
 let mapStateToProps = (state) => {
     return {
@@ -11,8 +10,13 @@ let mapStateToProps = (state) => {
 }
 
 let mapDispatchToProps = (dispatch) => (
-     {
-        changeSubscribe: (id)=>{dispatch(changeSubscribeAction(id))}
+    {
+        changeSubscribe: (id) => {
+            dispatch(changeSubscribeAction(id))
+        },
+        setUser: (array) => {
+            dispatch(setUserAction(array))
+        }
     }
 )
 

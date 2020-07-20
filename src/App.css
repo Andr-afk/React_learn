@@ -10,10 +10,11 @@
   "h h"
   "n c";
 
-    grid-template-rows: 100px 1fr;
+    grid-template-rows: 15% auto;
     grid-template-columns: 22% auto;
 }
 
 .app-wrapper-content {
     grid-area: c;
 }
+

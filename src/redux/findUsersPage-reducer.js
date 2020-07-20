@@ -1,5 +1,41 @@
 const CHANGE_SUBSCRIBE = 'CHANGE-SUBSCRIBE'
+const SET_USERS = 'SET-USERS'
 
+let initialState = {
+    users: []
+}
+
+window.users = initialState.users
+const findUsersReducers = (state = initialState, action) => {
+    switch (action.type) {
+        case CHANGE_SUBSCRIBE:
+            return {
+                ...state,
+                users: state.users.map(u => {
+                        if (u.id === Number(action.id)) {
+                            return {...u, followed: !u.followed}
+                        }
+                        return u
+                    }
+                )
+            }
+        case SET_USERS:
+            return {
+                ...state,
+                users: [...action.array]
+
+            }
+        default:
+            return state
+    }
+}
+
+export default findUsersReducers
+
+export const changeSubscribeAction = (id) => ({type: CHANGE_SUBSCRIBE, id: id})
+export const setUserAction = (array) => ({type: SET_USERS, array: array})
+
+/*
 let initialState = {
     users: [
         {
@@ -30,29 +66,4 @@ let initialState = {
             status: 'So, see you later'
         }
     ]
-}
-
-window.users = initialState.users
-const findUsersReducers = (state = initialState, action) => {
-    debugger;
-    switch (action.type) {
-        case CHANGE_SUBSCRIBE:
-            return {
-                ...state,
-                users: state.users.map(u => {
-                        if (u.id === Number(action.id)) {
-                            return {...u, isFriend: !u.isFriend}
-                        }
-                        return u
-                    }
-                )
-            }
-        default:
-            return state
-//should be state_copy
-    }
-}
-
-export default findUsersReducers
-
-export const changeSubscribeAction = (id) => ({type: CHANGE_SUBSCRIBE, id: id})
+}*/
