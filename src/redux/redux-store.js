@@ -13,7 +13,6 @@ let reducers = combineReducers({ //здесь мы создаем state
 })
 
 let store = createStore(reducers)
-window.store = store
-window.reducers = reducers
+window.state = store.getState()
 
 export default store

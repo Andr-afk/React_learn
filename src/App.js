@@ -13,7 +13,7 @@ import FindUsersContainer from "./components/FindUsers/FindUsersContainer";
 
 // Роуты всегда смотрят на URl, им не требутеся перезагрузка
 
-const App = (props) => {
+const App = () => {
     return (
         <BrowserRouter>
             <div className="app-wrapper">

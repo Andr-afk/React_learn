@@ -5,8 +5,7 @@ import classes from "./ProfileInfo.module.css"
 const ProfileInfo = (props) => {
     return (
         <div>
-            <img src={props.mainImage}
-                 alt="main image"/>
+            <img src={props.mainImage} alt="main"/>
             {/*<div className={classes.avaImage}><img src={props.avaImage} alt="avatar"/></div>
             <div className={classes.aboutUser}>
                 description

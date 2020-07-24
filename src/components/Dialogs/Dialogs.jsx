@@ -14,7 +14,6 @@ const Dialogs = (props) => {
     }
 
     let updateTextDialog = (e) => {
-        debugger;
         props.updateTextDialog(e.target.value)
     }
 

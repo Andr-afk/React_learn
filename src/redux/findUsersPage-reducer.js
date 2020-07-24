@@ -1,11 +1,18 @@
 const CHANGE_SUBSCRIBE = 'CHANGE-SUBSCRIBE'
 const SET_USERS = 'SET-USERS'
+const SET_PAGES = 'SET-PAGES'
+const CHANGE_PAGES = 'CHANGE-PAGES'
+const TOGGLE_IS_FETCHING = 'TOGGLE-IS-FETCHING'
+
 
 let initialState = {
-    users: []
+    users: [],
+    pageSize: 4,
+    usersCount: 0,
+    currentPage: 1,
+    isFetching: false
 }
 
-window.users = initialState.users
 const findUsersReducers = (state = initialState, action) => {
     switch (action.type) {
         case CHANGE_SUBSCRIBE:
@@ -23,8 +30,25 @@ const findUsersReducers = (state = initialState, action) => {
             return {
                 ...state,
                 users: [...action.array]
-
             }
+        case SET_PAGES:
+            return {
+                ...state,
+                usersCount: action.usersCount,
+                pageSize: action.pageSize
+            }
+        case CHANGE_PAGES:
+            return {
+                ...state,
+                currentPage: action.currentPage
+            }
+        case TOGGLE_IS_FETCHING:
+            return(
+                {
+                    ...state,
+                    isFetching: action.isFetching
+                }
+            )
         default:
             return state
     }
@@ -32,8 +56,12 @@ const findUsersReducers = (state = initialState, action) => {
 
 export default findUsersReducers
 
-export const changeSubscribeAction = (id) => ({type: CHANGE_SUBSCRIBE, id: id})
-export const setUserAction = (array) => ({type: SET_USERS, array: array})
+export const changeSubscribe = (id) => ({type: CHANGE_SUBSCRIBE, id: id})
+export const setUser = (array) => ({type: SET_USERS, array: array})
+export const setUserPages = (usersCount, pageSize) => ({type: SET_PAGES, usersCount, pageSize})
+export const changePages = (currentPage) => ({type: CHANGE_PAGES, currentPage})
+export const toggleIsFetching = (isFetching)=>({type:TOGGLE_IS_FETCHING, isFetching})
+
 
 /*
 let initialState = {

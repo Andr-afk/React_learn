@@ -59,7 +59,7 @@ const profileReducer = (state = initialState, action) => {
 }
 
 
-export const addPostActionCreator = () => ({type: ADD_POST}) //скобочки ставим из-за того, что компилятор фигурные скобки воспринимает как тело функции, в нашем случае это объект
-export const updateTextPostActionCreator = (text) => ({type: UPDATE_TEXT_POST, text: text})
+export const addPost = () => ({type: ADD_POST}) //скобочки ставим из-за того, что компилятор фигурные скобки воспринимает как тело функции, в нашем случае это объект
+export const updateTextPost = (text) => ({type: UPDATE_TEXT_POST, text: text})
 
 export default profileReducer
