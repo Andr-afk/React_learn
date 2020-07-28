@@ -5,7 +5,7 @@ import Post from './Post/Post.jsx'
 
 const MyPosts = (props) => {
 
-    let post_elements = props.ProfilePage.posts.map(post => (
+    let post_elements = props.posts.map(post => (
         <Post message={post.message} image={post.image} count_like={post.count_like} key={post.id}/>))
     
     let addPost = () => {
@@ -22,7 +22,7 @@ const MyPosts = (props) => {
             MyPosts
             <div>
                 <textarea onChange={changeTextPost}
-                          value={props.ProfilePage.newPostText}
+                          value={props.newPostText}
                           placeholder="hello"/>
                 <button onClick={addPost}>Send</button>
             </div>

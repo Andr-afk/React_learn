@@ -3,7 +3,10 @@ import MyPosts from "./MyPosts";
 import {connect} from "react-redux";
 
 
-let mapStateToProps = (state)=>({ProfilePage: state.ProfilePage})
+let mapStateToProps = (state)=>({
+    posts: state.ProfilePage.posts,
+    newPostText: state.ProfilePage.newPostText
+})
 
 let mapDispatchToProps = ({
     addPost,

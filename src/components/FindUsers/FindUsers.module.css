@@ -50,7 +50,7 @@
 
 .main button {
     font-weight: 700;
-    color: white;
+    color: #ffffff;
     text-decoration: none;
     padding: .8em 1em calc(.8em + 3px);
     border-radius: 3px;
@@ -66,5 +66,17 @@
 
 .pageNumber:active{
     background-color: black;
+}
+
+.pages{
+    margin: 10px
+}
+
+.pages span {
+    margin:2px
+}
+
+.pages button{
+    margin:1px
 }
 

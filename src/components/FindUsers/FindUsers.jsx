@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./FindUsers.module.css";
 import default_avatar from "../../assets/images/default_avatar.png";
-
+import {NavLink} from "react-router-dom";
 
 
 const FindUsers = (props) => {
@@ -17,13 +17,13 @@ const FindUsers = (props) => {
         <div className={classes.wrapper}>
             <div className={classes.title}><h3>Users</h3></div>
             <div className={classes.pages}>
-                {
-                    pages.map((number, index) => {
-                        return <button onClick={props.OnchangePages}
-                                       key={index}
-                                       className={props.FindUsersPage.currentPage && classes.selectedPage}>{number}</button>
-                    })
-                }
+                <button onClick={props.OnchangePages}>((</button>
+                <button onClick={props.OnchangePages}>(</button>
+                <span>{props.FindUsersPage.currentPage}</span>
+                <button onClick={props.OnchangePages}>)</button>
+                <button onClick={props.OnchangePages}>))</button>
+
+
             </div>
             <div className={classes.anotherUsers}>
                 {
@@ -31,7 +31,9 @@ const FindUsers = (props) => {
                         return (
                             <div className={classes.main} key={element.id}>
                                 <div className={classes.picture}>
-                                    <img src={element.photos.small || default_avatar} alt=''/>
+                                    <NavLink to={'/profile/' + element.id}>
+                                        <img src={element.photos.small || default_avatar} alt=''/>
+                                    </NavLink>
                                 </div>
                                 <button id={element.id}
                                         onClick={props.OnchangeSubscribe}>{props.subscribe(element.followed)}</button>
@@ -51,3 +53,12 @@ const FindUsers = (props) => {
 }
 
 export default FindUsers
+
+
+{/*{
+                    pages.map((number, index) => {
+                        return <button onClick={props.OnchangePages}
+                                       key={index}
+                                       className={props.FindUsersPage.currentPage && classes.selectedPage}>{number}</button>
+                    })
+                }*/}

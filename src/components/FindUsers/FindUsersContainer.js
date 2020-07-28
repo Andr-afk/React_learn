@@ -13,9 +13,8 @@ import Preloader from "../common/Preloader/Preloader";
 
 
 class FindUsersContainerComponent extends React.Component {
-    /*constructor(props) {
-        super(props);
-    }*/
+
+
 
     OnchangeSubscribe = (e) => {
         this.props.changeSubscribe(e.target.id)
@@ -26,31 +25,61 @@ class FindUsersContainerComponent extends React.Component {
     }
 
     OnchangePages = (e) => {
+        debugger
         this.props.toggleIsFetching(true)
-        let number = Number(e.target.innerText)
-        let pageSize = 4 // i will add it in state
+        let number = this.props.FindUsersPage.currentPage
 
-        this.props.changePages(number)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${pageSize}&page=${number}`)
-            .then(response => {
-                this.props.toggleIsFetching(false)
-                this.props.setUser(response.data.items)
+        switch (e.target.innerText) {
+            case '((':
+                this.props.changePages(1)
+                axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=4&page=1`)
+                    .then(response=>{
+                        this.props.toggleIsFetching(false)
+                        this.props.setUser(response.data.items)
+                    })
 
+                break;
 
-            })
+            case '(':
+                this.props.changePages(--number)
+                axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=4&page=${number--}`)
+                    .then(response=>{
+                        this.props.toggleIsFetching(false)
+                        this.props.setUser(response.data.items)
+                    })
+                break;
+
+            case ')':
+                this.props.changePages(++number)
+
+                axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=4&page=${number++}`)
+                    .then(response=>{
+                        this.props.toggleIsFetching(false)
+                        this.props.setUser(response.data.items)
+                    })
+                break;
+            case '))':
+                number = Math.ceil(this.props.FindUsersPage.usersCount / this.props.FindUsersPage.pageSize)
+                this.props.changePages(number)
+
+                axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=4&page=${number}`)
+                    .then(response=>{
+                        this.props.toggleIsFetching(false)
+                        this.props.setUser(response.data.items)
+                    })
+        }
     }
 
 
     render() {
         return (
             <>
-            {this.props.FindUsersPage.isFetching ? <Preloader /> :<div>{null}</div> }
-            <FindUsers FindUsersPage={this.props.FindUsersPage}
-                       OnchangeSubscribe={this.OnchangeSubscribe}
-                       subscribe={this.subscribe}
-                       OnchangePages={this.OnchangePages}
-                       toggleIsFetching={this.props.toggleIsFetching}
-            />
+            {this.props.FindUsersPage.isFetching?<Preloader/>:<div>{null}</div>}
+                <FindUsers FindUsersPage={this.props.FindUsersPage}
+                           OnchangeSubscribe={this.OnchangeSubscribe}
+                           subscribe={this.subscribe}
+                           OnchangePages={this.OnchangePages}
+                           toggleIsFetching={this.props.toggleIsFetching}/>
             </>
         )
     }
@@ -76,25 +105,6 @@ let mapStateToProps = (state) => {
     }
 }
 
-/*let mapDispatchToProps = (dispatch) => (
-    {
-        changeSubscribe: (id) => {
-            dispatch(changeSubscribeAC(id))
-        },
-        setUser: (array) => {
-            dispatch(setUserAC(array))
-        },
-        setUserPages: (usersCount, pageSize) => {
-            dispatch(setUsersPagesAC(usersCount, pageSize))
-        },
-        changePages: (currentPage) => {
-            dispatch(changePagesAC(currentPage))
-        },
-        toggleIsFetching: (isFetching) => {
-            dispatch(toggleIsFetchingAC(isFetching))
-        }
-    }
-)*/
 
 let mapDispatchToProps = ({
     changeSubscribe,
