@@ -46,7 +46,7 @@ const profileReducer = (state = initialState, action) => {
 
 export const addPost = () => ({type: ADD_POST}) //скобочки ставим из-за того, что компилятор фигурные скобки воспринимает как тело функции, в нашем случае это объект
 export const updateTextPost = (text) => ({type: UPDATE_TEXT_POST, text})
-export const getProfile = (response)=>({type:SET_PROFILE, response})
+export const setProfile = (response)=>({type:SET_PROFILE, response})
 
 export default profileReducer
 

@@ -16,6 +16,7 @@ let initialState = {
 const findUsersReducers = (state = initialState, action) => {
     switch (action.type) {
         case CHANGE_SUBSCRIBE:
+
             return {
                 ...state,
                 users: state.users.map(u => {

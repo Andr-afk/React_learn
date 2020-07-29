@@ -6,12 +6,6 @@ import {NavLink} from "react-router-dom";
 
 const FindUsers = (props) => {
 
-    let pagesCount = Math.ceil(props.FindUsersPage.usersCount / props.FindUsersPage.pageSize)
-    let pages = []
-
-    for (let i = 1; i <= pagesCount; i++) {
-        pages.push(i)
-    }
 
     return (
         <div className={classes.wrapper}>
@@ -28,6 +22,7 @@ const FindUsers = (props) => {
             <div className={classes.anotherUsers}>
                 {
                     props.FindUsersPage.users.map((element) => {
+
                         return (
                             <div className={classes.main} key={element.id}>
                                 <div className={classes.picture}>
@@ -35,8 +30,9 @@ const FindUsers = (props) => {
                                         <img src={element.photos.small || default_avatar} alt=''/>
                                     </NavLink>
                                 </div>
-                                <button id={element.id}
-                                        onClick={props.OnchangeSubscribe}>{props.subscribe(element.followed)}</button>
+                                {element.followed ?
+                                    <button onClick={props.OnUnfollow} id={element.id}>Unfollow</button> :
+                                    <button onClick={props.OnFollow} id={element.id}>Follow</button>}
                                 <div className={classes.info}>
                                     <div
                                         className={classes.fullName}>{element.name}</div>
@@ -61,4 +57,5 @@ export default FindUsers
                                        key={index}
                                        className={props.FindUsersPage.currentPage && classes.selectedPage}>{number}</button>
                     })
-                }*/}
+                }*/
+}
