@@ -5,7 +5,8 @@ import {
     setUser,
     setUserPages,
     changePages,
-    toggleIsFetching
+    toggleIsFetching,
+    toggleFollowingProgress
 } from "../../redux/findUsersPage-reducer";
 import FindUsers from "./FindUsers";
 import Preloader from "../common/Preloader/Preloader";
@@ -16,33 +17,55 @@ class FindUsersContainerComponent extends React.Component {
 
 
     OnFollow = (e) => {
-        this.props.toggleIsFetching(true)
-        let userID = e.target.id
+        let userID = Number(e.target.id)
+        this.props.toggleFollowingProgress(userID,true)
+        this.props.toggleIsFetching(userID)
 
         usersAPI.FollowToUser(userID)
             .then(data => {
-                this.props.toggleIsFetching(false)
                 if (data.resultCode === 0) this.props.changeSubscribe(userID)
                 else console.log(data.messages)
+
+                this.props.toggleFollowingProgress(userID,false)
+                this.props.toggleIsFetching(false)
             })
+            .catch(error=>{
+                this.props.toggleFollowingProgress(userID,false)
+                this.props.toggleIsFetching(false)
+
+                console.log(error)
+            })
+
+
     }
 
     OnUnfollow = (e) => {
+        let userID = Number(e.target.id)
+        this.props.toggleFollowingProgress(userID, true)
         this.props.toggleIsFetching(true)
-        let userID = e.target.id
+
 
         usersAPI.UnfollowFromUser(userID)
             .then(data => {
-                this.props.toggleIsFetching(false)
-                if (data.resultCode === 0) this.props.changeSubscribe(userID)
+                if (data.resultCode === 0)this.props.changeSubscribe(userID)
                 else console.log(data.messages)
+
+                this.props.toggleFollowingProgress(userID,false)
+                this.props.toggleIsFetching(false)
             })
+            .catch(error => {
+                this.props.toggleFollowingProgress(userID,false)
+                this.props.toggleIsFetching(false)
+
+                console.log(error)
+            })
+
     }
 
 
     OnchangePages = (e) => {
         this.props.toggleIsFetching(true)
-        let number = this.props.FindUsersPage.currentPage
+        let number = this.props.currentPage
         let pageSize = 10
 
         switch (e.target.innerText) {
@@ -75,7 +98,7 @@ class FindUsersContainerComponent extends React.Component {
                     })
                 break;
             case '))':
-                number = Math.ceil(this.props.FindUsersPage.usersCount / this.props.FindUsersPage.pageSize)
+                number = Math.ceil(this.props.usersCount / this.props.pageSize)
                 this.props.changePages(number)
 
                 usersAPI.getUsers(pageSize, number)
@@ -90,13 +113,20 @@ class FindUsersContainerComponent extends React.Component {
     render() {
         return (
             <>
-                {this.props.FindUsersPage.isFetching ? <Preloader/> : <div>{null}</div>}
-                <FindUsers FindUsersPage={this.props.FindUsersPage}
+                {this.props.isFetching ? <Preloader/> : <div>{null}</div>}
+                <FindUsers users={this.props.users}
+                           pageSize={this.props.pageSize}
+                           usersCount={this.props.usersCount}
+                           currentPage={this.props.currentPage}
+                           isFetching={this.props.isFetching}
+                           followingProgress={this.props.followingProgress}
                            OnchangePages={this.OnchangePages}
                            subscribe={this.subscribe}
                            OnFollow={this.OnFollow}
                            OnUnfollow={this.OnUnfollow}
-                           toggleIsFetching={this.props.toggleIsFetching}/>
+                           toggleIsFetching={this.props.toggleIsFetching}
+                           toggleFollowingProgress={this.props.toggleFollowingProgress}/>
+
             </>
         )
     }
@@ -119,7 +149,13 @@ class FindUsersContainerComponent extends React.Component {
 
 let mapStateToProps = (state) => {
     return {
-        FindUsersPage: state.FindUsersPage
+        users: state.FindUsersPage.users,
+        pageSize: state.FindUsersPage.pageSize,
+        usersCount: state.FindUsersPage.usersCount,
+        currentPage: state.FindUsersPage.currentPage,
+        isFetching: state.FindUsersPage.isFetching,
+        followingProgress: state.FindUsersPage.followingProgress,
+
     }
 }
 
@@ -129,7 +165,8 @@ let mapDispatchToProps = ({
     setUser,
     setUserPages,
     changePages,
-    toggleIsFetching
+    toggleIsFetching,
+    toggleFollowingProgress
 })
 
 const FindUsersContainer = connect(mapStateToProps, mapDispatchToProps)(FindUsersContainerComponent)

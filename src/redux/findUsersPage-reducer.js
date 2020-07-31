@@ -3,6 +3,7 @@ const SET_USERS = 'SET-USERS'
 const SET_PAGES = 'SET-PAGES'
 const CHANGE_PAGES = 'CHANGE-PAGES'
 const TOGGLE_IS_FETCHING = 'TOGGLE-IS-FETCHING'
+const TOGGLE_FOLLOWING_PROGRESS = 'TOGGLE-FOLLOWING-PROGRESS'
 
 
 let initialState = {
@@ -10,7 +11,8 @@ let initialState = {
     pageSize: 4,
     usersCount: 0,
     currentPage: 1,
-    isFetching: false
+    isFetching: false,
+    followingProgress: []
 }
 
 const findUsersReducers = (state = initialState, action) => {
@@ -28,6 +30,7 @@ const findUsersReducers = (state = initialState, action) => {
                 )
             }
         case SET_USERS:
+
             return {
                 ...state,
                 users: [...action.array]
@@ -44,12 +47,19 @@ const findUsersReducers = (state = initialState, action) => {
                 currentPage: action.currentPage
             }
         case TOGGLE_IS_FETCHING:
-            return(
+            return (
                 {
                     ...state,
                     isFetching: action.isFetching
                 }
             )
+        case TOGGLE_FOLLOWING_PROGRESS:
+            return {
+                ...state,
+                followingProgress: action.followingProgress
+                    ? [...state.followingProgress, action.userID]
+                    : state.followingProgress.filter(id => id != action.userID)
+            }
         default:
             return state
     }
@@ -61,8 +71,12 @@ export const changeSubscribe = (id) => ({type: CHANGE_SUBSCRIBE, id: id})
 export const setUser = (array) => ({type: SET_USERS, array: array})
 export const setUserPages = (usersCount, pageSize) => ({type: SET_PAGES, usersCount, pageSize})
 export const changePages = (currentPage) => ({type: CHANGE_PAGES, currentPage})
-export const toggleIsFetching = (isFetching)=>({type:TOGGLE_IS_FETCHING, isFetching})
-
+export const toggleIsFetching = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching})
+export const toggleFollowingProgress = (userID, followingProgress) => ({
+    type: TOGGLE_FOLLOWING_PROGRESS,
+    followingProgress,
+    userID
+})
 
 /*
 let initialState = {

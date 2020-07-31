@@ -13,7 +13,7 @@ const FindUsers = (props) => {
             <div className={classes.pages}>
                 <button onClick={props.OnchangePages}>((</button>
                 <button onClick={props.OnchangePages}>(</button>
-                <span>{props.FindUsersPage.currentPage}</span>
+                <span>{props.currentPage}</span>
                 <button onClick={props.OnchangePages}>)</button>
                 <button onClick={props.OnchangePages}>))</button>
 
@@ -21,7 +21,7 @@ const FindUsers = (props) => {
             </div>
             <div className={classes.anotherUsers}>
                 {
-                    props.FindUsersPage.users.map((element) => {
+                    props.users.map((element) => {
 
                         return (
                             <div className={classes.main} key={element.id}>
@@ -31,8 +31,10 @@ const FindUsers = (props) => {
                                     </NavLink>
                                 </div>
                                 {element.followed ?
-                                    <button onClick={props.OnUnfollow} id={element.id}>Unfollow</button> :
-                                    <button onClick={props.OnFollow} id={element.id}>Follow</button>}
+                                    <button disabled={props.followingProgress.some(userID=> userID === element.id)} onClick={props.OnUnfollow}
+                                            id={element.id}>Unfollow</button> :
+                                    <button disabled={props.followingProgress.some(userID=> userID === element.id)} onClick={props.OnFollow}
+                                            id={element.id}>Follow</button>}
                                 <div className={classes.info}>
                                     <div
                                         className={classes.fullName}>{element.name}</div>
@@ -55,7 +57,7 @@ export default FindUsers
                     pages.map((number, index) => {
                         return <button onClick={props.OnchangePages}
                                        key={index}
-                                       className={props.FindUsersPage.currentPage && classes.selectedPage}>{number}</button>
+                                       className={props.currentPage && classes.selectedPage}>{number}</button>
                     })
                 }*/
 }
