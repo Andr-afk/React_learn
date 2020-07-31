@@ -1,114 +1,57 @@
 import React from "react";
 import {connect} from "react-redux";
 import {
-    changeSubscribe,
-    setUser,
-    setUserPages,
-    changePages,
-    toggleIsFetching,
-    toggleFollowingProgress
+    getUsersThunkCreator,
+    followToUserThunkCreator,
+    unfollowFromUserThunkCreator
 } from "../../redux/findUsersPage-reducer";
 import FindUsers from "./FindUsers";
 import Preloader from "../common/Preloader/Preloader";
-import {usersAPI} from "../../api/api";
 
 
 class FindUsersContainerComponent extends React.Component {
 
+    componentDidMount() {
+        this.props.getUsers(this.props.pageSize, this.props.currentPage)
+    }
 
     OnFollow = (e) => {
         let userID = Number(e.target.id)
-        this.props.toggleFollowingProgress(userID,true)
-        this.props.toggleIsFetching(userID)
-
-        usersAPI.FollowToUser(userID)
-            .then(data => {
-                if (data.resultCode === 0) this.props.changeSubscribe(userID)
-                else console.log(data.messages)
-
-                this.props.toggleFollowingProgress(userID,false)
-                this.props.toggleIsFetching(false)
-            })
-            .catch(error=>{
-                this.props.toggleFollowingProgress(userID,false)
-                this.props.toggleIsFetching(false)
-
-                console.log(error)
-            })
-
-
+        this.props.followToUser(userID)
     }
 
     OnUnfollow = (e) => {
         let userID = Number(e.target.id)
-        this.props.toggleFollowingProgress(userID, true)
-        this.props.toggleIsFetching(true)
-
-
-        usersAPI.UnfollowFromUser(userID)
-            .then(data => {
-                if (data.resultCode === 0)this.props.changeSubscribe(userID)
-                else console.log(data.messages)
-
-                this.props.toggleFollowingProgress(userID,false)
-                this.props.toggleIsFetching(false)
-            })
-            .catch(error => {
-                this.props.toggleFollowingProgress(userID,false)
-                this.props.toggleIsFetching(false)
-
-                console.log(error)
-            })
-
+        this.props.unfollowFromUser(userID)
     }
 
-
     OnchangePages = (e) => {
-        this.props.toggleIsFetching(true)
-        let number = this.props.currentPage
-        let pageSize = 10
-
         switch (e.target.innerText) {
             case '((':
-                this.props.changePages(1)
-                usersAPI.getUsers(pageSize, 1)
-                    .then(data => {
-                        this.props.toggleIsFetching(false)
-                        this.props.setUser(data.items)
-                    })
 
+                this.props.getUsers(this.props.pageSize, 1)
                 break;
 
             case '(':
-                this.props.changePages(--number)
-                usersAPI.getUsers(pageSize, number--)
-                    .then(data => {
-                        this.props.toggleIsFetching(false)
-                        this.props.setUser(data.items)
-                    })
+
+                this.props.getUsers(this.props.pageSize, this.props.currentPage - 1)
                 break;
 
             case ')':
-                this.props.changePages(++number)
 
-                usersAPI.getUsers(pageSize, number++)
-                    .then(data => {
-                        this.props.toggleIsFetching(false)
-                        this.props.setUser(data.items)
-                    })
+                this.props.getUsers(this.props.pageSize, this.props.currentPage + 1)
                 break;
             case '))':
-                number = Math.ceil(this.props.usersCount / this.props.pageSize)
-                this.props.changePages(number)
 
-                usersAPI.getUsers(pageSize, number)
-                    .then(data => {
-                        this.props.toggleIsFetching(false)
-                        this.props.setUser(data.items)
-                    })
+                let last_page = Math.ceil(this.props.usersCount / this.props.pageSize)
+                this.props.getUsers(this.props.pageSize, last_page)
+                break
+            default:
+
+                this.props.getUsers(this.props.pageSize, 1)
+                break
         }
     }
-
 
     render() {
         return (
@@ -131,18 +74,6 @@ class FindUsersContainerComponent extends React.Component {
         )
     }
 
-    componentDidMount() {
-        this.props.toggleIsFetching(true)
-        let pageSize = 10 // maybe enter this variable in constructor?
-
-        usersAPI.getUsers(pageSize)
-            .then(data => {
-                this.props.toggleIsFetching(false)
-                this.props.setUser(data.items)
-                this.props.setUserPages(data.totalCount, pageSize)
-
-            })
-    }
 
 }
 
@@ -161,12 +92,9 @@ let mapStateToProps = (state) => {
 
 
 let mapDispatchToProps = ({
-    changeSubscribe,
-    setUser,
-    setUserPages,
-    changePages,
-    toggleIsFetching,
-    toggleFollowingProgress
+    getUsers: getUsersThunkCreator,
+    followToUser: followToUserThunkCreator,
+    unfollowFromUser: unfollowFromUserThunkCreator
 })
 
 const FindUsersContainer = connect(mapStateToProps, mapDispatchToProps)(FindUsersContainerComponent)
