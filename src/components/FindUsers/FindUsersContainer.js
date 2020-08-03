@@ -58,17 +58,11 @@ class FindUsersContainerComponent extends React.Component {
             <>
                 {this.props.isFetching ? <Preloader/> : <div>{null}</div>}
                 <FindUsers users={this.props.users}
-                           pageSize={this.props.pageSize}
-                           usersCount={this.props.usersCount}
-                           currentPage={this.props.currentPage}
-                           isFetching={this.props.isFetching}
-                           followingProgress={this.props.followingProgress}
                            OnchangePages={this.OnchangePages}
-                           subscribe={this.subscribe}
                            OnFollow={this.OnFollow}
                            OnUnfollow={this.OnUnfollow}
-                           toggleIsFetching={this.props.toggleIsFetching}
-                           toggleFollowingProgress={this.props.toggleFollowingProgress}/>
+                           followingProgress={this.props.followingProgress}
+                />
 
             </>
         )

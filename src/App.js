@@ -9,6 +9,7 @@ import Settings from "./components/Settings/Settings";
 import FindUsersContainer from "./components/FindUsers/FindUsersContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
+import Login from "./components/Login/Login"
 
 
 // Роуты всегда смотрят на URl, им не требутеся перезагрузка
@@ -20,6 +21,7 @@ const App = () => {
                 <HeaderContainer/>
                 <NavContainer />
                 <div className="app-wrapper-content">
+                    <Route path="/login" render={()=><Login/>}/>
                     <Route path="/profile/:userID?" render={() => <ProfileContainer/>}/>
                     <Route path="/dialogs" render={() => <DialogsContainer/>}/>
                     <Route path="/news" render={() => <News/>}/>

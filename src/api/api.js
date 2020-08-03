@@ -2,21 +2,21 @@ import instance from "./instance";
 
 
 export const usersAPI = {
-    getUsers(pageSize = 4, pageNumber = 1) {
+    loadUsers(pageSize = 4, pageNumber = 1) {
         return instance.get(`users?count=${pageSize}&page=${pageNumber}`)
             .then(response=>{
                 return response.data
             })
     },
 
-    FollowToUser(userID){
+    followToUser(userID){
         return instance.post('follow/' + userID)
             .then(response=>{
                 return response.data
             })
     },
 
-    UnfollowFromUser(userID){
+    unfollowFromUser(userID){
         return instance.delete('follow/' + userID)
             .then(response=>{
                 return response.data
@@ -26,11 +26,33 @@ export const usersAPI = {
 
 
 export const profileAPI = {
-    getProfile(userID){
+    loadProfile(userID){
         return instance.get('profile/' + userID)
             .then(response=>{
                 return response.data
             })
+    }
+}
+
+export const headerAPI = {
+    authMe(){
+         return instance.get('auth/me')
+             // .then(response => {
+             //     if (response.data.resultCode === 0) {
+             //         this.props.setAuthUserData(response.data.data)
+             //
+             //         axios.get('https://social-network.samuraijs.com/api/1.0/profile/' + response.data.data.id)
+             //             .then(response => {
+             //                 let image_source = response.data.photos.small || default_avatar
+             //                 this.props.setImagesUsers(image_source)
+             //             })
+             //     }
+             //
+             // })
+             .then(response=>{
+                 return response.data
+             })
+
     }
 }
 

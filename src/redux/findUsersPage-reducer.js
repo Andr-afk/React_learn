@@ -1,5 +1,6 @@
 import {usersAPI} from "../api/api";
 
+
 const CHANGE_SUBSCRIBE = 'CHANGE-SUBSCRIBE'
 const SET_USERS = 'SET-USERS'
 const SET_PAGES = 'SET-PAGES'
@@ -88,7 +89,7 @@ export const getUsersThunkCreator = (pageSize, pageNumber)=>{
         dispatch(toggleIsFetching(true))
         dispatch(changePages(pageNumber))
 
-        usersAPI.getUsers(pageSize, pageNumber)
+        usersAPI.loadUsers(pageSize, pageNumber)
             .then(data => {
                 dispatch(toggleIsFetching(false))
                 dispatch(setUser(data.items))

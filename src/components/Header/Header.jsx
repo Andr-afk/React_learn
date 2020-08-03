@@ -5,7 +5,6 @@ import preloader from "../../assets/images/preloader.gif"
 
 
 const Header = (props) => {
-    // if (!props.isFetching) return <Preloader/>
 
     let main_content = () => {
         if (props.isAuth) {

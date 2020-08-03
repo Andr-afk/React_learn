@@ -30,11 +30,13 @@ const FindUsers = (props) => {
                                         <img src={element.photos.small || default_avatar} alt=''/>
                                     </NavLink>
                                 </div>
-                                {element.followed ?
-                                    <button disabled={props.followingProgress.some(userID=> userID === element.id)} onClick={props.OnUnfollow}
+                                {
+                                    element.followed ?
+                                    <button disabled={props.followingProgress.find(userID=> userID === element.id)} onClick={props.OnUnfollow}
                                             id={element.id}>Unfollow</button> :
-                                    <button disabled={props.followingProgress.some(userID=> userID === element.id)} onClick={props.OnFollow}
-                                            id={element.id}>Follow</button>}
+                                    <button disabled={props.followingProgress.find(userID=> userID === element.id)} onClick={props.OnFollow}
+                                            id={element.id}>Follow</button>
+                                }
                                 <div className={classes.info}>
                                     <div
                                         className={classes.fullName}>{element.name}</div>
