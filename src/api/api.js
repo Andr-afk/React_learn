@@ -31,29 +31,39 @@ export const profileAPI = {
             .then(response=>{
                 return response.data
             })
+    },
+
+    loadStatus(userID){
+        return instance.get('profile/status/' + userID)
+            .then(response=>{
+                return response.data
+            })
+    },
+
+    updateStatus(status_text){
+        return instance.put('/profile/status', {status: status_text})
+            .then(response=>{
+                return response.data
+            })
     }
 }
 
 export const headerAPI = {
     authMe(){
          return instance.get('auth/me')
-             // .then(response => {
-             //     if (response.data.resultCode === 0) {
-             //         this.props.setAuthUserData(response.data.data)
-             //
-             //         axios.get('https://social-network.samuraijs.com/api/1.0/profile/' + response.data.data.id)
-             //             .then(response => {
-             //                 let image_source = response.data.photos.small || default_avatar
-             //                 this.props.setImagesUsers(image_source)
-             //             })
-             //     }
-             //
-             // })
              .then(response=>{
                  return response.data
              })
 
+    },
+
+    loginMe(email, password, rememberMe){
+        return instance.post("/auth/login", {email, password, rememberMe})
+            .then(response=>{
+                return response.data
+            })
     }
+
 }
 
 

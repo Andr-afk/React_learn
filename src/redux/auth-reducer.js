@@ -39,6 +39,7 @@ const authReducer = (state = initial_state, action) => {
 export const setAuthUserData = (authData) => ({type: SET_AUTH_USER_DATA, authData})
 export const setImagesUsers = (img) => ({type: SET_IMAGES_USERS, img})
 
+
 export default authReducer
 
 export const authMeThunkCreator = () => {
@@ -47,7 +48,6 @@ export const authMeThunkCreator = () => {
             .then(data => {
                 if (data.resultCode === 0) {
                     dispatch(setAuthUserData(data.data))
-                    debugger
                     profileAPI.loadProfile(data.data.id)
                         .then(data => {
                             let image_source = data.photos.small || default_avatar
@@ -58,4 +58,18 @@ export const authMeThunkCreator = () => {
     }
 
 
+}
+
+export const loginMeThunkCreator = (authData) => {
+    let login = authData.login
+    let pass = authData.password
+    let rememberMe = authData.rememberMe
+
+    return (dispatch) => {
+        headerAPI.loginMe(login, pass, rememberMe)
+            .then(data => {
+                if (data.data.resultCode === 0) dispatch(authMeThunkCreator())
+                else alert(data.messages)
+            })
+    }
 }

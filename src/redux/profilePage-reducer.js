@@ -4,12 +4,14 @@ import {profileAPI} from "../api/api";
 const ADD_POST = 'ADD-POST'
 const UPDATE_TEXT_POST = 'UPDATE-TEXT-POST'
 const SET_PROFILE = 'GET-PROFILE'
+const SET_STATUS = 'SET-STATUS'
 
 
 let initialState = {
     posts: [],
     newPostText: "",
-    profile: null
+    profile: null,
+    status: null
 }
 
 
@@ -39,6 +41,11 @@ const profileReducer = (state = initialState, action) => {
                 profile: action.response
 
             }
+        case SET_STATUS:
+            return {
+                ...state,
+                status: action.status
+            }
         default:
             return state
     }
@@ -50,8 +57,7 @@ export default profileReducer
 export const addPost = () => ({type: ADD_POST})
 export const updateTextPost = (text) => ({type: UPDATE_TEXT_POST, text})
 export const setProfile = (response) => ({type: SET_PROFILE, response})
-
-
+export const setStatus = (status) => ({type: SET_STATUS, status})
 
 
 export const getProfileThunkCreator = (userID) => {
@@ -61,6 +67,21 @@ export const getProfileThunkCreator = (userID) => {
         profileAPI.loadProfile(userID)
             .then(data => {
                 dispatch(setProfile(data))
+            })
+        profileAPI.loadStatus(userID)
+            .then(data => {
+                dispatch(setStatus(data))
+            })
+
+
+    }
+}
+
+export const updateStatusThunkCreator = (status) => {
+    return (dispatch) => {
+        profileAPI.updateStatus(status)
+            .then(data => {
+                if (data.resultCode === 0) dispatch(setStatus(status))
             })
     }
 }

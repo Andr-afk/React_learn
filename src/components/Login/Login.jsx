@@ -1,13 +1,40 @@
-import React from "react"
+import React from "react";
+import {reduxForm, Field} from "redux-form";
+import {loginMeThunkCreator} from "../../redux/auth-reducer";
+import {connect} from "react-redux";
 
+const LoginForm = (props)=>{
+    return(
+        <form onSubmit={props.handleSubmit}>
+            <div><Field name='login' placeholder='login' component="input" type="text"/></div>
+            <div><Field name='password' placeholder='password' component="input" type="text"/></div>
+            <div><Field name='rememberMe' component="input" type="checkbox"/>remember me</div>
+            <div><button>Login</button></div>
+        </form>
+    )
+}
 
-const Login = ()=>{
+const LoginReduxForm = reduxForm({form: 'login'})(LoginForm)
+
+const Login = (props) => {
+    const onSubmit = (formData)=>{
+        props.loginMe(formData)
+    }
+
     return (
         <div>
-            <h2>It's a login!!!</h2>
+            <h2>Login</h2>
+            <LoginReduxForm onSubmit={onSubmit}/>
         </div>
     )
 }
 
 
-export default Login
+let mapStateToProps = (state)=>{}
+
+let mapDispatchToProps  = {
+    loginMe: loginMeThunkCreator
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)
