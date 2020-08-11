@@ -6,6 +6,7 @@ import findUsersReducers from "./findUsersPage-reducer";
 import authReducer from "./auth-reducer";
 import thunkMiddleWare from "redux-thunk"
 import { reducer as formReducer } from "redux-form"
+import appReducer from "./app-reducer";
 
 
 
@@ -15,6 +16,7 @@ let reducers = combineReducers({ //здесь мы создаем state
     DialogsPage: dialogsReducer,
     NavPage: navReducer,
     FindUsersPage: findUsersReducers,
+    app: appReducer,
     form: formReducer
 })
 

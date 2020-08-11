@@ -1,6 +1,6 @@
 import React from 'react'; // если директория не указывается, значит импортируется из node_modules
 import './App.css';
-import {BrowserRouter, Route} from "react-router-dom";
+import {Route, withRouter,} from "react-router-dom";
 import NavContainer from './components/Nav/NavContainer';
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import News from "./components/News/News"
@@ -10,31 +10,57 @@ import FindUsersContainer from "./components/FindUsers/FindUsersContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import LoginContainer from "./components/Login/Login"
+import {compose} from "redux";
+import {connect} from "react-redux";
+import {initializeUserThunk} from "./redux/app-reducer";
+import Preloader from "./components/common/Preloader/Preloader";
 
 
 // Роуты всегда смотрят на URl, им не требутеся перезагрузка
 
-const App = () => {
-    return (
-        <BrowserRouter>
-            <div className="app-wrapper">
-                <HeaderContainer/>
-                <NavContainer />
-                <div className="app-wrapper-content">
-                    <Route path="/profile/:userID?" render={() => <ProfileContainer/>}/>
-                    <Route path="/dialogs" render={() => <DialogsContainer/>}/>
-                    <Route path="/news" render={() => <News/>}/>
-                    <Route path="/music" render={() => <Music/>}/>
-                    <Route path="/settings" render={() => <Settings/>}/>
-                    <Route path="/find_users" render={()=> <FindUsersContainer/>}/>
-                    <Route path="/login" render={()=><LoginContainer/>}/>
-                </div>
+class App extends React.Component {
+    componentDidMount() {
+        debugger
+        this.props.initializeUser()
+    }
 
-                <footer>Something text in the end</footer>
-            </div>
-        </BrowserRouter>
-    )
+    render() {
+        if (!this.props.initialized) return <Preloader/>
+
+        return (
+                <div className="app-wrapper">
+                    <HeaderContainer/>
+                    <NavContainer />
+                    <div className="app-wrapper-content">
+                        <Route path="/profile/:userID?" render={() => <ProfileContainer/>}/>
+                        <Route path="/dialogs" render={() => <DialogsContainer/>}/>
+                        <Route path="/news" render={() => <News/>}/>
+                        <Route path="/music" render={() => <Music/>}/>
+                        <Route path="/settings" render={() => <Settings/>}/>
+                        <Route path="/find_users" render={()=> <FindUsersContainer/>}/>
+                        <Route path="/login" render={()=><LoginContainer/>}/>
+                    </div>
+
+                    <footer>Something text in the end</footer>
+                </div>
+        )
+    }
+
+
 }
 
-export default App
+
+let mapStateToProps = (state)=>({
+    initialized: state.app.initialized
+})
+
+let mapDispatchToProps ={
+    initializeUser: initializeUserThunk
+}
+
+export default compose(
+    withRouter,
+    connect(mapStateToProps, mapDispatchToProps)
+
+)(App)
 

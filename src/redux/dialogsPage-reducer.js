@@ -1,4 +1,3 @@
-const UPDATE_TEXT_DIALOG = 'UPDATE-TEXT-DIALOG'
 const NEW_MESSAGE = 'NEW-MESSAGE'
 
 let initialSize = {
@@ -24,15 +23,10 @@ let initialSize = {
 
 const dialogsReducer = (state = initialSize, action) => {
     switch (action.type) {
-        case UPDATE_TEXT_DIALOG:
-            return {
-                ...state,
-                newDialogText: action.text
-            }
         case NEW_MESSAGE:
             return {
                 ...state,
-                messages: [...state.messages, {id: 6, message: state.newDialogText}],
+                messages: [...state.messages, {id: 6, message: action.text}],
                 newDialogText: ''
             }
         default:
@@ -41,7 +35,6 @@ const dialogsReducer = (state = initialSize, action) => {
 }
 
 //actions creators
-export const updateTextDialog = (text) => ({type: UPDATE_TEXT_DIALOG, text: text})
-export const addMessage = () => ({type: NEW_MESSAGE})
+export const addMessage = (text) => ({type: NEW_MESSAGE, text})
 
 export default dialogsReducer

@@ -10,7 +10,6 @@ export function withAuthRedirect(Component) {
 
     class x extends React.Component {
         render() {
-            debugger
             if (!this.props.isAuth) return <Redirect to="/login"/>
             else return <Component {...this.props}/>
         }

@@ -2,14 +2,30 @@ import React from "react";
 import {reduxForm, Field} from "redux-form";
 import {loginMeThunkCreator} from "../../redux/auth-reducer";
 import {connect} from "react-redux";
+import {Input} from "../common/FormController/FormController";
+import {isEmail, required} from "../../utilits/validators";
+import {Redirect} from "react-router-dom";
 
-const LoginForm = (props)=>{
-    return(
+const LoginForm = (props) => {
+    return (
         <form onSubmit={props.handleSubmit}>
-            <div><Field name='login' placeholder='login' component="input" type="text"/></div>
-            <div><Field name='password' placeholder='password' component="input" type="text"/></div>
-            <div><Field name='rememberMe' component="input" type="checkbox"/>remember me</div>
-            <div><button>Login</button></div>
+            <div>
+                <Field name='login' placeholder='login' component={Input} type="text" validate={[required, isEmail]}/>
+            </div>
+            <div>
+                <Field name='password' placeholder='password' component={Input} type="password" validate={required}/>
+            </div>
+            <div>
+                <Field name='rememberMe' component={Input} type="checkbox"/>remember me
+            </div>
+            <div>
+                <button>Login</button>
+            </div>
+
+                {
+                    props.error && <div>props.error</div>
+                }
+
         </form>
     )
 }
@@ -17,7 +33,11 @@ const LoginForm = (props)=>{
 const LoginReduxForm = reduxForm({form: 'login'})(LoginForm)
 
 const Login = (props) => {
-    const onSubmit = (formData)=>{
+    debugger
+    if (props.isAuth) return <Redirect to="/profile"/>
+
+    const onSubmit = (formData) => {
+        debugger
         props.loginMe(formData)
     }
 
@@ -30,9 +50,11 @@ const Login = (props) => {
 }
 
 
-let mapStateToProps = (state)=>{}
+let mapStateToProps = (state) => ({
+    isAuth: state.auth.isAuth
+})
 
-let mapDispatchToProps  = {
+let mapDispatchToProps = {
     loginMe: loginMeThunkCreator
 }
 
