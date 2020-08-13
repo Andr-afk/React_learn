@@ -4,7 +4,6 @@ import {loginMeThunkCreator} from "../../redux/auth-reducer";
 import {connect} from "react-redux";
 import {Input} from "../common/FormController/FormController";
 import {isEmail, required} from "../../utilits/validators";
-import {Redirect} from "react-router-dom";
 
 const LoginForm = (props) => {
     return (
@@ -33,11 +32,8 @@ const LoginForm = (props) => {
 const LoginReduxForm = reduxForm({form: 'login'})(LoginForm)
 
 const Login = (props) => {
-    debugger
-    if (props.isAuth) return <Redirect to="/profile"/>
 
     const onSubmit = (formData) => {
-        debugger
         props.loginMe(formData)
     }
 

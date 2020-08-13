@@ -1,4 +1,4 @@
-import React from 'react'; // если директория не указывается, значит импортируется из node_modules
+import React, {useEffect} from 'react'; // если директория не указывается, значит импортируется из node_modules
 import './App.css';
 import {Route, withRouter,} from "react-router-dom";
 import NavContainer from './components/Nav/NavContainer';
@@ -18,49 +18,76 @@ import Preloader from "./components/common/Preloader/Preloader";
 
 // Роуты всегда смотрят на URl, им не требутеся перезагрузка
 
-class App extends React.Component {
-    componentDidMount() {
-        debugger
-        this.props.initializeUser()
-    }
+// class App extends React.Component {
+//     componentDidMount() {
+//         debugger
+//         this.props.initializeUser()
+//     }
+//
+//     render() {
+//         if (!this.props.initialized) return <Preloader/>
+//
+//         return (
+//                 <div className="app-wrapper">
+//                     <HeaderContainer/>
+//                     <NavContainer />
+//                     <div className="app-wrapper-content">
+//                         <Route path="/profile/:userID?" render={() => <ProfileContainer/>}/>
+//                         <Route path="/dialogs" render={() => <DialogsContainer/>}/>
+//                         <Route path="/news" render={() => <News/>}/>
+//                         <Route path="/music" render={() => <Music/>}/>
+//                         <Route path="/settings" render={() => <Settings/>}/>
+//                         <Route path="/find_users" render={()=> <FindUsersContainer/>}/>
+//                         <Route path="/login" render={()=><LoginContainer/>}/>
+//                     </div>
+//
+//                     <footer>Something text in the end</footer>
+//                 </div>
+//         )
+//     }
+//
+//
+// }
 
-    render() {
-        if (!this.props.initialized) return <Preloader/>
 
-        return (
-                <div className="app-wrapper">
-                    <HeaderContainer/>
-                    <NavContainer />
-                    <div className="app-wrapper-content">
-                        <Route path="/profile/:userID?" render={() => <ProfileContainer/>}/>
-                        <Route path="/dialogs" render={() => <DialogsContainer/>}/>
-                        <Route path="/news" render={() => <News/>}/>
-                        <Route path="/music" render={() => <Music/>}/>
-                        <Route path="/settings" render={() => <Settings/>}/>
-                        <Route path="/find_users" render={()=> <FindUsersContainer/>}/>
-                        <Route path="/login" render={()=><LoginContainer/>}/>
-                    </div>
-
-                    <footer>Something text in the end</footer>
-                </div>
-        )
-    }
-
-
-}
-
-
-let mapStateToProps = (state)=>({
+let mapStateToProps = (state) => ({
     initialized: state.app.initialized
 })
 
-let mapDispatchToProps ={
+let mapDispatchToProps = {
     initializeUser: initializeUserThunk
+}
+
+
+const App = (props) => {
+    useEffect(() => {
+        if (!props.initialized) props.initializeUser()
+
+    }, [props.initialized])
+
+    if (!props.initialized) return <Preloader/>
+
+    return (
+        <div className="app-wrapper">
+            <HeaderContainer/>
+            <NavContainer/>
+            <div className="app-wrapper-content">
+                <Route path="/profile/:userID?" render={() => <ProfileContainer/>}/>
+                <Route path="/dialogs" render={() => <DialogsContainer/>}/>
+                <Route path="/news" render={() => <News/>}/>
+                <Route path="/music" render={() => <Music/>}/>
+                <Route path="/settings" render={() => <Settings/>}/>
+                <Route path="/find_users" render={() => <FindUsersContainer/>}/>
+                <Route path="/login" render={() => <LoginContainer/>}/>
+            </div>
+
+            <footer>Something text in the end</footer>
+        </div>
+    )
 }
 
 export default compose(
     withRouter,
     connect(mapStateToProps, mapDispatchToProps)
-
 )(App)
 

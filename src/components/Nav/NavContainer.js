@@ -4,6 +4,6 @@ import {connect} from "react-redux";
 let mapStateToProps = (state)=>({NavPage: state.NavPage})
 let mapDispatchToProps = (dispatch)=>({})
 
-const NavContainer = connect(mapStateToProps, mapDispatchToProps)(Nav)
+const NavContainer = connect(mapStateToProps, null)(Nav)
 
 export default NavContainer

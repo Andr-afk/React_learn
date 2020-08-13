@@ -99,7 +99,6 @@ export const logoutMeThunkCreator = () => (dispatch) => {
             if (data.resultCode === 0){
                 dispatch(setAuthState(false))
                 dispatch(authMeThunkCreator())
-                return <Redirect to='/login'/>
             }
         })
 }

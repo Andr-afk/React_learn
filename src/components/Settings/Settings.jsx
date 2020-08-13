@@ -2,6 +2,8 @@ import React from "react"
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
 import {logoutMeThunkCreator} from "../../redux/auth-reducer"
+import {withAuthRedirect} from "../HOC/RedirecterToLogin";
+import {compose} from "redux";
 
 const Settings = (props) => {
 
@@ -24,4 +26,7 @@ let mapDispatchToProps = {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Settings)
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    withAuthRedirect
+)(Settings)

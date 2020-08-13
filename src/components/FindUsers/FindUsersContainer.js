@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {connect} from "react-redux";
 import {
     getUsersThunkCreator,
@@ -7,66 +7,67 @@ import {
 } from "../../redux/findUsersPage-reducer";
 import FindUsers from "./FindUsers";
 import Preloader from "../common/Preloader/Preloader";
+import {
+    takeCurrentPage, takeFollowingProgress,
+    takeIsFetching,
+    takePageSize,
+    takeUsers,
+    takeUsersCount
+} from "../../redux/selectors/FindUsersSelectors";
 
 
-class FindUsersContainerComponent extends React.Component {
+const FindUsersContainer = (props) =>{
+    useEffect(()=>{
+        props.getUsers(props.pageSize, props.currentPage)
+    },[props.users.length])
 
-    componentDidMount() {
-        this.props.getUsers(this.props.pageSize, this.props.currentPage)
-    }
-
-    OnFollow = (e) => {
+    const OnFollow = (e) => {
         let userID = Number(e.target.id)
-        this.props.followToUser(userID)
+        props.followToUser(userID)
     }
 
-    OnUnfollow = (e) => {
+    const OnUnfollow = (e) => {
         let userID = Number(e.target.id)
-        this.props.unfollowFromUser(userID)
+        props.unfollowFromUser(userID)
     }
 
-    OnchangePages = (e) => {
+    const OnchangePages = (e) => {
         switch (e.target.innerText) {
             case '((':
-
-                this.props.getUsers(this.props.pageSize, 1)
+                props.getUsers(props.pageSize, 1)
                 break;
 
             case '(':
-
-                this.props.getUsers(this.props.pageSize, this.props.currentPage - 1)
+                props.getUsers(props.pageSize, props.currentPage - 1)
                 break;
 
             case ')':
-
-                this.props.getUsers(this.props.pageSize, this.props.currentPage + 1)
+                props.getUsers(props.pageSize, props.currentPage + 1)
                 break;
             case '))':
-
-                let last_page = Math.ceil(this.props.usersCount / this.props.pageSize)
-                this.props.getUsers(this.props.pageSize, last_page)
+                let last_page = Math.ceil(props.usersCount / props.pageSize)
+                props.getUsers(props.pageSize, last_page)
                 break
             default:
 
-                this.props.getUsers(this.props.pageSize, 1)
+                props.getUsers(props.pageSize, 1)
                 break
         }
     }
 
-    render() {
-        return (
-            <>
-                {this.props.isFetching ? <Preloader/> : <div>{null}</div>}
-                <FindUsers users={this.props.users}
-                           OnchangePages={this.OnchangePages}
-                           OnFollow={this.OnFollow}
-                           OnUnfollow={this.OnUnfollow}
-                           followingProgress={this.props.followingProgress}
-                />
+    return(
+        <>
+            {props.isFetching ? <Preloader/> : <div>{null}</div>}
+            <FindUsers users={props.users}
+                       currentPage={props.currentPage}
+                       OnchangePages={OnchangePages}
+                       OnFollow={OnFollow}
+                       OnUnfollow={OnUnfollow}
+                       followingProgress={props.followingProgress}
+            />
 
-            </>
-        )
-    }
+        </>
+    )
 
 
 }
@@ -74,12 +75,12 @@ class FindUsersContainerComponent extends React.Component {
 
 let mapStateToProps = (state) => {
     return {
-        users: state.FindUsersPage.users,
-        pageSize: state.FindUsersPage.pageSize,
-        usersCount: state.FindUsersPage.usersCount,
-        currentPage: state.FindUsersPage.currentPage,
-        isFetching: state.FindUsersPage.isFetching,
-        followingProgress: state.FindUsersPage.followingProgress,
+        users: takeUsers(state),
+        pageSize: takePageSize(state),
+        usersCount: takeUsersCount(state),
+        currentPage: takeCurrentPage(state),
+        isFetching: takeIsFetching(state),
+        followingProgress: takeFollowingProgress(state),
 
     }
 }
@@ -91,6 +92,4 @@ let mapDispatchToProps = ({
     unfollowFromUser: unfollowFromUserThunkCreator
 })
 
-const FindUsersContainer = connect(mapStateToProps, mapDispatchToProps)(FindUsersContainerComponent)
-
-export default FindUsersContainer
+export default connect(mapStateToProps, mapDispatchToProps)(FindUsersContainer)
