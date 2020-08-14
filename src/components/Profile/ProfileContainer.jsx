@@ -7,27 +7,6 @@ import {withAuthRedirect} from "../HOC/RedirecterToLogin";
 import {compose} from "redux";
 
 
-// class ProfileContainerComponent extends React.Component {
-//     render() {
-//         return <Profile profile={this.props.profile}
-//                         status={this.props.status}
-//                         updateStatus={this.props.updateStatus}/>
-//     }
-//
-//     componentDidMount() {
-//
-//         let userID = this.props.match.params.userID
-//         if (!userID) {
-//             userID = this.props.authorizedUserID
-//             if (!userID) return <Redirect to='/login'/>
-//         }
-//
-//
-//         this.props.getProfile(userID)
-//
-//     }
-// }
-
 let mapStateToProps = (state) => ({
     profile: state.ProfilePage.profile,
     isAuth: state.auth.isAuth,

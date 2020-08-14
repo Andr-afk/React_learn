@@ -6,13 +6,13 @@ import {maxLength, required} from "../../../utilits/validators";
 import {Textarea} from "../../common/FormController/FormController"
 
 
-const MyPosts = (props) => {
+const MyPosts = props => {
 
     let post_elements = props.posts.map(post => (
         <Post message={post.message} image={post.image} count_like={post.count_like} key={post.id}/>))
 
 
-    const onSubmit = (formData)=>{
+    const onSubmit = (formData) => {
         props.addPost(formData.PostText)
     }
 
@@ -27,12 +27,14 @@ const MyPosts = (props) => {
     )
 }
 
+
 export default MyPosts
 
 
 const maxLength10 = maxLength(10)
 
-const MyPostForm = (props) => {
+const MyPostForm = props => {
+
     return (
         <form onSubmit={props.handleSubmit}>
             <Field name='PostText' component={Textarea} validate={[required, maxLength10]} placeholder='text11111'/>
@@ -40,6 +42,7 @@ const MyPostForm = (props) => {
         </form>
     )
 }
+
 
 const MyPostFormRedux = reduxForm({form: 'add_post'})(MyPostForm)
 

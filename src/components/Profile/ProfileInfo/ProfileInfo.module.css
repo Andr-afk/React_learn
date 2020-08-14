@@ -16,3 +16,9 @@
 .appWrapper {
 
 }
+
+.preloader img{
+    width:100px;
+    height: 100px;
+}
+

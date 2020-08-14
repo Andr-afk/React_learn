@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'; // если директория не указывается, значит импортируется из node_modules
 import './App.css';
-import {Route, withRouter,} from "react-router-dom";
+import {Route, withRouter} from "react-router-dom";
 import NavContainer from './components/Nav/NavContainer';
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import News from "./components/News/News"
@@ -14,40 +14,6 @@ import {compose} from "redux";
 import {connect} from "react-redux";
 import {initializeUserThunk} from "./redux/app-reducer";
 import Preloader from "./components/common/Preloader/Preloader";
-
-
-// Роуты всегда смотрят на URl, им не требутеся перезагрузка
-
-// class App extends React.Component {
-//     componentDidMount() {
-//         debugger
-//         this.props.initializeUser()
-//     }
-//
-//     render() {
-//         if (!this.props.initialized) return <Preloader/>
-//
-//         return (
-//                 <div className="app-wrapper">
-//                     <HeaderContainer/>
-//                     <NavContainer />
-//                     <div className="app-wrapper-content">
-//                         <Route path="/profile/:userID?" render={() => <ProfileContainer/>}/>
-//                         <Route path="/dialogs" render={() => <DialogsContainer/>}/>
-//                         <Route path="/news" render={() => <News/>}/>
-//                         <Route path="/music" render={() => <Music/>}/>
-//                         <Route path="/settings" render={() => <Settings/>}/>
-//                         <Route path="/find_users" render={()=> <FindUsersContainer/>}/>
-//                         <Route path="/login" render={()=><LoginContainer/>}/>
-//                     </div>
-//
-//                     <footer>Something text in the end</footer>
-//                 </div>
-//         )
-//     }
-//
-//
-// }
 
 
 let mapStateToProps = (state) => ({

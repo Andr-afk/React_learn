@@ -14,7 +14,7 @@ import {
     takeUsers,
     takeUsersCount
 } from "../../redux/selectors/FindUsersSelectors";
-
+import classes from "./FindUsersContainer.module.css"
 
 const FindUsersContainer = (props) =>{
     useEffect(()=>{
@@ -56,17 +56,18 @@ const FindUsersContainer = (props) =>{
     }
 
     return(
-        <>
-            {props.isFetching ? <Preloader/> : <div>{null}</div>}
-            <FindUsers users={props.users}
-                       currentPage={props.currentPage}
-                       OnchangePages={OnchangePages}
-                       OnFollow={OnFollow}
-                       OnUnfollow={OnUnfollow}
-                       followingProgress={props.followingProgress}
-            />
-
-        </>
+        <div className={classes.mai}>
+            {
+                props.isFetching
+                    ? <Preloader className={classes.preloader}/>
+                    : <FindUsers users={props.users}
+                                 currentPage={props.currentPage}
+                                 OnchangePages={OnchangePages}
+                                 OnFollow={OnFollow}
+                                 OnUnfollow={OnUnfollow}
+                                 followingProgress={props.followingProgress}/>
+            }
+        </div>
     )
 
 
