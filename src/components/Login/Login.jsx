@@ -1,40 +1,32 @@
 import React from "react";
-import {reduxForm, Field} from "redux-form";
+import {reduxForm} from "redux-form";
 import {loginMeThunkCreator} from "../../redux/auth-reducer";
 import {connect} from "react-redux";
-import {Input} from "../common/FormController/FormController";
+import {CreateField, Input} from "../common/FormController/FormController";
 import {isEmail, required} from "../../utilits/validators";
 
-const LoginForm = (props) => {
+
+const LoginForm = ({handleSubmit, error}) => {
     return (
-        <form onSubmit={props.handleSubmit}>
-            <div>
-                <Field name='login' placeholder='login' component={Input} type="text" validate={[required, isEmail]}/>
-            </div>
-            <div>
-                <Field name='password' placeholder='password' component={Input} type="password" validate={required}/>
-            </div>
-            <div>
-                <Field name='rememberMe' component={Input} type="checkbox"/>remember me
-            </div>
+        <form onSubmit={handleSubmit}>
+            {CreateField("login", Input, "text", [required, isEmail], "login")}
+            {CreateField("password", Input, "password", required, "password")}
+            {CreateField("rememberMe", Input, "checkbox", null, null, null, "remember me")}
             <div>
                 <button>Login</button>
             </div>
 
-                {
-                    props.error && <div>props.error</div>
-                }
-
+            {error && <div>{error}</div>}
         </form>
     )
 }
 
 const LoginReduxForm = reduxForm({form: 'login'})(LoginForm)
 
-const Login = (props) => {
+const Login = ({loginMe}) => {
 
     const onSubmit = (formData) => {
-        props.loginMe(formData)
+        loginMe(formData)
     }
 
     return (

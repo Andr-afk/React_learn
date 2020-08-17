@@ -21,7 +21,6 @@ let initialState = {
 const findUsersReducers = (state = initialState, action) => {
     switch (action.type) {
         case CHANGE_SUBSCRIBE:
-
             return {
                 ...state,
                 users: state.users.map(u => {
@@ -33,7 +32,6 @@ const findUsersReducers = (state = initialState, action) => {
                 )
             }
         case SET_USERS:
-
             return {
                 ...state,
                 users: [...action.array]
@@ -82,69 +80,59 @@ export const toggleFollowingProgress = (userID, followingProgress) => ({
     userID
 })
 
-// thunks
 
-export const getUsersThunkCreator = (pageSize, pageNumber)=>{
-    return (dispatch)=>{
+export const getUsersThunkCreator = (pageSize, pageNumber) => {
+    return async (dispatch) => {
         dispatch(toggleIsFetching(true))
         dispatch(changePages(pageNumber))
 
-        usersAPI.loadUsers(pageSize, pageNumber)
-            .then(data => {
-                dispatch(toggleIsFetching(false))
-                dispatch(setUser(data.items))
-                dispatch(setUserPages(data.totalCount, pageSize))
+        const data = await usersAPI.loadUsers(pageSize, pageNumber)
 
-            })
+        dispatch(toggleIsFetching(false))
+        dispatch(setUser(data.items))
+        dispatch(setUserPages(data.totalCount, pageSize))
     }
 }
 
-export const followToUserThunkCreator = (userID)=>{
+export const followToUserThunkCreator = (userID) => {
 
-    return (dispatch)=>{
-        dispatch(toggleFollowingProgress(userID,true))
-        dispatch(toggleIsFetching(userID))
+    return async (dispatch) => {
+        dispatch(toggleFollowingProgress(userID, true))
 
-        usersAPI.FollowToUser(userID)
-            .then(data => {
-                if (data.resultCode === 0) dispatch(changeSubscribe(userID))
-                else console.log(data.messages)
 
-                dispatch(toggleFollowingProgress(userID,false))
-                dispatch(toggleIsFetching(false))
-            })
-            .catch(error=>{
-                dispatch(toggleFollowingProgress(userID,false))
-                dispatch(toggleIsFetching(false))
+        try {
+            const data = await usersAPI.followToUser(userID)
+            if (data.resultCode === 0) dispatch(changeSubscribe(userID))
+            else console.warn(data.messages)
 
-                console.log(error)
-            })
+            dispatch(toggleFollowingProgress(userID, false))
+        } catch (error) {
+            dispatch(toggleFollowingProgress(userID, false))
+            console.warn(error)
+        }
+
     }
 
 }
 
-export const unfollowFromUserThunkCreator = (userID)=>{
-    return (dispatch)=>{
+export const unfollowFromUserThunkCreator = (userID) => {
+    return async (dispatch) => {
         userID = Number(userID)
 
         dispatch(toggleFollowingProgress(userID, true))
-        dispatch(toggleIsFetching(true))
 
+        try {
+            const data = await usersAPI.unfollowFromUser(userID)
 
-        usersAPI.UnfollowFromUser(userID)
-            .then(data => {
-                if (data.resultCode === 0)dispatch(changeSubscribe(userID))
-                else console.log(data.messages)
+            if (data.resultCode === 0) dispatch(changeSubscribe(userID))
+            else console.warn(data.messages)
 
-                dispatch(toggleFollowingProgress(userID,false))
-                dispatch(toggleIsFetching(false))
-            })
-            .catch(error => {
-                dispatch(toggleFollowingProgress(userID,false))
-                dispatch(toggleIsFetching(false))
+            dispatch(toggleFollowingProgress(userID, false))
+        } catch (error) {
+            dispatch(toggleFollowingProgress(userID, false))
 
-                console.log(error)
-            })
+            console.warn(error)
+        }
     }
 }
 

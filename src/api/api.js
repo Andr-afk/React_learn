@@ -2,73 +2,54 @@ import instance from "./instance";
 
 
 export const usersAPI = {
-    loadUsers(pageSize = 4, pageNumber = 1) {
-        return instance.get(`users?count=${pageSize}&page=${pageNumber}`)
-            .then(response=>{
-                return response.data
-            })
+    async loadUsers(pageSize = 4, pageNumber = 1) {
+        let response = await instance.get(`users?count=${pageSize}&page=${pageNumber}`)
+        return response.data
     },
 
-    followToUser(userID){
-        return instance.post('follow/' + userID)
-            .then(response=>{
-                return response.data
-            })
+    async followToUser(userID){
+        let response = await instance.post('follow/' + userID)
+        return response.data
     },
 
-    unfollowFromUser(userID){
-        return instance.delete('follow/' + userID)
-            .then(response=>{
-                return response.data
-            })
+    async unfollowFromUser(userID){
+        let response = await instance.delete('follow/' + userID)
+        return response.data
     }
 }
 
-
 export const profileAPI = {
-    loadProfile(userID){
-        return instance.get('profile/' + userID)
-            .then(response=>{
-                return response.data
-            })
+    async loadProfile(userID){
+        let response = await instance.get('profile/' + userID)
+        return response.data
     },
 
-    loadStatus(userID){
-        return instance.get('profile/status/' + userID)
-            .then(response=>{
-                return response.data
-            })
+    async loadStatus(userID){
+        let response = await instance.get('profile/status/' + userID)
+        return response.data
     },
 
-    updateStatus(status_text){
-        return instance.put('/profile/status', {status: status_text})
-            .then(response=>{
-                return response.data
-            })
+    async updateStatus(status_text){
+        let response = await instance.put('/profile/status', {status: status_text})
+        return response.data
     }
 }
 
 export const AuthAPI = {
-    authMe(){
-         return instance.get('auth/me')
-             .then(response=>{
-                 return response.data
-             })
 
+    async authMe(){
+        let response = await instance.get('auth/me')
+        return response.data
     },
 
-    loginMe(email, password, rememberMe){
-        return instance.post("/auth/login", {email, password, rememberMe})
-            .then(response=>{
-                return response.data
-            })
+    async loginMe(email, password, rememberMe){
+        let response = await instance.post("/auth/login", {email, password, rememberMe})
+        return response.data
     },
 
-    logoutMe(){
-        return instance.delete("auth/login")
-            .then(response=>{
-                return response.data
-            })
+    async logoutMe(){
+        let response = await instance.delete("auth/login")
+        return response.data
     }
 
 }

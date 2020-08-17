@@ -16,10 +16,12 @@ import {
 } from "../../redux/selectors/FindUsersSelectors";
 import classes from "./FindUsersContainer.module.css"
 
-const FindUsersContainer = (props) =>{
+const FindUsersContainer = ({pageSize, currentPage, getUsers, users, ...props}) =>{
+
     useEffect(()=>{
-        props.getUsers(props.pageSize, props.currentPage)
-    },[props.users.length])
+
+        getUsers(pageSize, currentPage)
+    },[users.length])
 
     const OnFollow = (e) => {
         let userID = Number(e.target.id)
@@ -31,26 +33,25 @@ const FindUsersContainer = (props) =>{
         props.unfollowFromUser(userID)
     }
 
-    const OnchangePages = (e) => {
+    const OnChangePages = (e) => {
         switch (e.target.innerText) {
             case '((':
-                props.getUsers(props.pageSize, 1)
+                getUsers(pageSize, 1)
                 break;
 
             case '(':
-                props.getUsers(props.pageSize, props.currentPage - 1)
+                getUsers(pageSize, currentPage - 1)
                 break;
 
             case ')':
-                props.getUsers(props.pageSize, props.currentPage + 1)
+                getUsers(pageSize, currentPage + 1)
                 break;
             case '))':
-                let last_page = Math.ceil(props.usersCount / props.pageSize)
-                props.getUsers(props.pageSize, last_page)
+                const last_page = Math.ceil(props.usersCount / pageSize)
+                getUsers(pageSize, last_page)
                 break
             default:
-
-                props.getUsers(props.pageSize, 1)
+                getUsers(pageSize, 1)
                 break
         }
     }
@@ -60,9 +61,9 @@ const FindUsersContainer = (props) =>{
             {
                 props.isFetching
                     ? <Preloader className={classes.preloader}/>
-                    : <FindUsers users={props.users}
-                                 currentPage={props.currentPage}
-                                 OnchangePages={OnchangePages}
+                    : <FindUsers users={users}
+                                 currentPage={currentPage}
+                                 OnChangePages={OnChangePages}
                                  OnFollow={OnFollow}
                                  OnUnfollow={OnUnfollow}
                                  followingProgress={props.followingProgress}/>

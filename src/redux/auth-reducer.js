@@ -1,7 +1,6 @@
 import {AuthAPI, profileAPI} from "../api/api"
 import default_avatar from "../assets/images/default_avatar.png"
 import React from "react";
-import {Redirect} from "react-router-dom";
 import {stopSubmit} from "redux-form";
 
 
@@ -54,51 +53,44 @@ export const setAuthState = (status) => ({type: SET_AUTH_STATE, status})
 export default authReducer
 
 export const authMeThunkCreator = () => {
-    return (dispatch) => {
-        return AuthAPI.authMe()
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(setAuthState(true))
-                    dispatch(setAuthUserData(data.data))
+    return async (dispatch) => {
+        const authData = await AuthAPI.authMe()
+        if (authData.resultCode === 0) {
+            dispatch(setAuthState(true))
+            dispatch(setAuthUserData(authData.data))
+        }
+        const profileData = await profileAPI.loadProfile(authData.data.id)
+        const image_source = profileData.photos.small || default_avatar
+        dispatch(setImagesUsers(image_source))
 
-                    profileAPI.loadProfile(data.data.id)
-                        .then(data => {
-                            let image_source = data.photos.small || default_avatar
-                            dispatch(setImagesUsers(image_source))
-                        })
-                }
-            })
     }
-
-
 }
 
 export const loginMeThunkCreator = (authData) => {
-    let login = authData.login
-    let pass = authData.password
-    let rememberMe = authData.rememberMe
+    const login = authData.login
+    const pass = authData.password
+    const rememberMe = authData.rememberMe
 
-    return (dispatch) => {
-        AuthAPI.loginMe(login, pass, rememberMe)
-            .then(data => {
-                if (data.resultCode === 0){
-                    dispatch(setAuthState(true))
-                    dispatch(authMeThunkCreator())
-                }
-                else {
-                    let action = stopSubmit("login", {_error: data.messages[0]})
-                    dispatch(action)
-                }
-            })
+    return async (dispatch) => {
+        const loginData = await AuthAPI.loginMe(login,pass,rememberMe)
+
+        if(loginData.resultCode === 0){
+            dispatch(setAuthState(true))
+            dispatch(authMeThunkCreator())
+        }
+        else{
+            const action = stopSubmit("login", {_error: loginData.messages[0]})
+            dispatch(action)
+        }
+
     }
 }
 
-export const logoutMeThunkCreator = () => (dispatch) => {
-    return AuthAPI.logoutMe()
-        .then(data => {
-            if (data.resultCode === 0){
-                dispatch(setAuthState(false))
-                dispatch(authMeThunkCreator())
-            }
-        })
+export const logoutMeThunkCreator = () => async (dispatch) => {
+    const logoutData = await AuthAPI.logoutMe()
+
+    if(logoutData.resultCode === 0){
+        dispatch(setAuthState(false))
+        dispatch(authMeThunkCreator())
+    }
 }

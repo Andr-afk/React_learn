@@ -1,16 +1,16 @@
 import {authMeThunkCreator} from "./auth-reducer";
 
-const INITIALIZE_STATUS =  "INITIALIZE-STATUS"
+const INITIALIZE_STATUS = "INITIALIZE-STATUS"
 
 
 const initial_state = {
     initialized: false
 }
 
-const appReducer = (state=initial_state, action)=>{
-    switch (action.type){
+const appReducer = (state = initial_state, action) => {
+    switch (action.type) {
         case INITIALIZE_STATUS:
-            return{
+            return {
                 ...state,
                 initialized: true
             }
@@ -21,12 +21,11 @@ const appReducer = (state=initial_state, action)=>{
 
 export default appReducer
 
-const initializeUser = ()=>({type:INITIALIZE_STATUS})
+const initializeUser = () => ({type: INITIALIZE_STATUS})
 
 
-export const initializeUserThunk = ()=>(dispatch)=>{
-    dispatch(authMeThunkCreator())
-        .then(()=>{
-            dispatch(initializeUser())
-        })
+export const initializeUserThunk = () => async (dispatch) => {
+    await dispatch(authMeThunkCreator())
+    dispatch(initializeUser())
+
 }

@@ -63,26 +63,17 @@ export const deletePost = (postID)=>({type:DELETE_POST, postID})
 export const getProfileThunkCreator = (userID) => {
     userID = Number(userID)
 
-    return (dispatch) => {
-        profileAPI.loadProfile(userID)
-            .then(data => {
-                dispatch(setProfile(data))
-            })
-        profileAPI.loadStatus(userID)
-            .then(data => {
-                dispatch(setStatus(data))
-            })
-
-
+    return async (dispatch) => {
+        const [profileData, statusData] = await Promise.all([profileAPI.loadProfile(userID), profileAPI.loadStatus(userID)])
+        dispatch(setProfile(profileData))
+        dispatch(setStatus(statusData))
     }
 }
 
 export const updateStatusThunkCreator = (status) => {
-    return (dispatch) => {
-        profileAPI.updateStatus(status)
-            .then(data => {
-                if (data.resultCode === 0) dispatch(setStatus(status))
-            })
+    return async (dispatch) => {
+        const statusData = await profileAPI.updateStatus(status)
+        if(statusData.resultCode === 0) dispatch(setStatus(status))
     }
 }
 
