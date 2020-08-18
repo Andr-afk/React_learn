@@ -21,24 +21,21 @@ let mapDispatchToProps = ({
 })
 
 
+const ProfileContainer = ({match, authorizedUserID, getProfile, ...props}) => {
+    useEffect(() => {
+        let userID = match.params.userID
+        if (!userID) {
+            userID = authorizedUserID
+            if (!userID) return <Redirect to='/login'/>
+        }
 
+        getProfile(userID)
+    }, [match.params.userID])
 
-const ProfileContainer = (props)=>{
-    useEffect(()=>{
-        let userID = props.match.params.userID
-         if (!userID) {
-             userID = props.authorizedUserID
-             if (!userID) return <Redirect to='/login'/>
-         }
-
-
-         props.getProfile(userID)
-    },[props.match.params.userID])
-
-    return(
+    return (
         <Profile profile={props.profile}
-                         status={props.status}
-                         updateStatus={props.updateStatus}/>
+                 status={props.status}
+                 updateStatus={props.updateStatus}/>
     )
 }
 

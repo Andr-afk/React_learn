@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'; // если директория не указывается, значит импортируется из node_modules
 import './App.css';
-import {Route, withRouter} from "react-router-dom";
+import {BrowserRouter, Route, withRouter} from "react-router-dom";
 import NavContainer from './components/Nav/NavContainer';
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import News from "./components/News/News"
@@ -11,9 +11,10 @@ import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import LoginContainer from "./components/Login/Login"
 import {compose} from "redux";
-import {connect} from "react-redux";
+import {connect, Provider} from "react-redux";
 import {initializeUserThunk} from "./redux/app-reducer";
 import Preloader from "./components/common/Preloader/Preloader";
+import store from "./redux/redux-store";
 
 
 let mapStateToProps = (state) => ({
@@ -25,13 +26,13 @@ let mapDispatchToProps = {
 }
 
 
-const App = (props) => {
+const App = ({initialized, initializeUser, ...props}) => {
     useEffect(() => {
-        if (!props.initialized) props.initializeUser()
+        if (!initialized) initializeUser()
 
-    }, [props.initialized])
+    }, [initialized])
 
-    if (!props.initialized) return <Preloader/>
+    if (!initialized) return <Preloader/>
 
     return (
         <div className="app-wrapper">
@@ -52,8 +53,21 @@ const App = (props) => {
     )
 }
 
-export default compose(
+const AppContainer =  compose(
     withRouter,
     connect(mapStateToProps, mapDispatchToProps)
 )(App)
 
+
+const EnterPoint = (props)=>{
+    return(
+        <BrowserRouter>
+            <Provider store={store}>
+                <AppContainer/>
+            </Provider>
+        </BrowserRouter>
+        )
+
+}
+
+export default EnterPoint

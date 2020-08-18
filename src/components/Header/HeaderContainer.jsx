@@ -4,28 +4,13 @@ import {connect} from "react-redux";
 import {authMeThunkCreator, setAuthUserData, setImagesUsers} from "../../redux/auth-reducer";
 
 
-// class HeaderContainer extends React.Component {
-//
-//     componentDidMount() {
-//         this.props.authMe()
-//     }
-//
-//     render() {
-//         return <Header {...this.props}/>
-//     }
-// }
-
-
-
-
-
-const HeaderContainer = (props)=>{
+const HeaderContainer = ({isAuth, ...props})=>{
     useEffect(()=>{
-        props.authMe()
-    }, [props.isAuth])
+        if(!isAuth) props.authMe()
+    }, [isAuth])
 
     return(
-        <Header {...props}/>
+        <Header isAuth={isAuth} {...props}/>
     )
 }
 

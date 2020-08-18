@@ -1,6 +1,5 @@
 import {AuthAPI, profileAPI} from "../api/api"
 import default_avatar from "../assets/images/default_avatar.png"
-import React from "react";
 import {stopSubmit} from "redux-form";
 
 
@@ -56,12 +55,14 @@ export const authMeThunkCreator = () => {
     return async (dispatch) => {
         const authData = await AuthAPI.authMe()
         if (authData.resultCode === 0) {
+            const profileData = await profileAPI.loadProfile(authData.data.id)
             dispatch(setAuthState(true))
             dispatch(setAuthUserData(authData.data))
+
+            const image_source = profileData.photos.small || default_avatar
+            dispatch(setImagesUsers(image_source))
         }
-        const profileData = await profileAPI.loadProfile(authData.data.id)
-        const image_source = profileData.photos.small || default_avatar
-        dispatch(setImagesUsers(image_source))
+
 
     }
 }

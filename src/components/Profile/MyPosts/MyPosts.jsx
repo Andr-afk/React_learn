@@ -31,13 +31,13 @@ const MyPosts = props => {
 export default MyPosts
 
 
-const maxLength10 = maxLength(10)
+const maxLength100 = maxLength(100)
 
 const MyPostForm = props => {
 
     return (
         <form onSubmit={props.handleSubmit}>
-            <Field name='PostText' component={Textarea} validate={[required, maxLength10]} placeholder='text11111'/>
+            <Field name='PostText' component={Textarea} validate={[required, maxLength100]} placeholder='text11111'/>
             <button>Add Post</button>
         </form>
     )

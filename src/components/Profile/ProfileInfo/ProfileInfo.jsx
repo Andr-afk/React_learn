@@ -12,7 +12,7 @@ const ProfileInfo = (props) => {
 
 
     useEffect(()=>{
-        if(props.status !== status) setStatus(props.status)
+        setStatus(props.status)
     }, [props.status])
 
 

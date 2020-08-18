@@ -16,12 +16,11 @@ import {
 } from "../../redux/selectors/FindUsersSelectors";
 import classes from "./FindUsersContainer.module.css"
 
-const FindUsersContainer = ({pageSize, currentPage, getUsers, users, ...props}) =>{
+const FindUsersContainer = ({pageSize, currentPage, getUsers, users, ...props}) => {
 
-    useEffect(()=>{
-
+    useEffect(() => {
         getUsers(pageSize, currentPage)
-    },[users.length])
+    }, [users.length, pageSize, currentPage, getUsers])
 
     const OnFollow = (e) => {
         let userID = Number(e.target.id)
@@ -38,7 +37,6 @@ const FindUsersContainer = ({pageSize, currentPage, getUsers, users, ...props}) 
             case '((':
                 getUsers(pageSize, 1)
                 break;
-
             case '(':
                 getUsers(pageSize, currentPage - 1)
                 break;
@@ -56,7 +54,7 @@ const FindUsersContainer = ({pageSize, currentPage, getUsers, users, ...props}) 
         }
     }
 
-    return(
+    return (
         <div className={classes.mai}>
             {
                 props.isFetching
