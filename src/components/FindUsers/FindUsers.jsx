@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "./FindUsers.module.css";
-import ChangePageButton from "./ChangePageButtons";
+import Paginator from "../common/ChangePageButtons";
 import User from "./User";
 
 
@@ -9,9 +9,8 @@ const FindUsers = (props) => {
 
     return (
         <div className={classes.wrapper}>
-
-            <ChangePageButton OnChangePages={OnChangePages} currentPage={currentPage}/>
-
+            {/*<ChangePageButton OnChangePages={OnChangePages} currentPage={currentPage}/>*/}
+            <Paginator portionSize={10} totalCount={900} OnChangePages={props.OnChangePages}/>
             <div className={classes.Users}>
                 {users.map((element) => (<User key={element.id}
                                                user={element}

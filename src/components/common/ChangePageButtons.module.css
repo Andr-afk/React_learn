@@ -1,0 +1,13 @@
+.secondButton{
+    border: none;
+    background-color: #C1C1C1;
+    margin: 1px;
+}
+
+.secondButton:hover{
+    box-shadow: 2px 4px 5px #000;
+}
+
+.secondButton:active{
+    background-color: white;
+}

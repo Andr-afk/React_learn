@@ -20,7 +20,7 @@ const FindUsersContainer = ({pageSize, currentPage, getUsers, users, ...props}) 
 
     useEffect(() => {
         getUsers(pageSize, currentPage)
-    }, [users.length, pageSize, currentPage, getUsers])
+    }, [])
 
     const OnFollow = (e) => {
         let userID = Number(e.target.id)
@@ -32,26 +32,10 @@ const FindUsersContainer = ({pageSize, currentPage, getUsers, users, ...props}) 
         props.unfollowFromUser(userID)
     }
 
-    const OnChangePages = (e) => {
-        switch (e.target.innerText) {
-            case '((':
-                getUsers(pageSize, 1)
-                break;
-            case '(':
-                getUsers(pageSize, currentPage - 1)
-                break;
 
-            case ')':
-                getUsers(pageSize, currentPage + 1)
-                break;
-            case '))':
-                const last_page = Math.ceil(props.usersCount / pageSize)
-                getUsers(pageSize, last_page)
-                break
-            default:
-                getUsers(pageSize, 1)
-                break
-        }
+    const OnChangePages = (e)=>{
+        const numberPage = Number(e.target.innerText)
+        getUsers(pageSize, numberPage)
     }
 
     return (
