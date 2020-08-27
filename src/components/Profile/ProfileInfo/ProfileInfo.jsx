@@ -2,32 +2,46 @@ import React, {useEffect, useState} from "react";
 import classes from "./ProfileInfo.module.css"
 import Preloader from "../../common/Preloader/Preloader";
 import default_avatar from "../../../assets/images/default_avatar.png"
-
-
+import AboutMe from "./AboutMe/AboutMe";
 
 
 const ProfileInfo = (props) => {
-    let [editMode, setEditMode] = useState(false)
+    let [editModeStatus, setEditModeStatus] = useState(false)
     let [status, setStatus] = useState(props.status)
 
-
-    useEffect(()=>{
+    useEffect(() => {
         setStatus(props.status)
     }, [props.status])
 
 
     const activateEditMode = () => {
-        setEditMode(true)
+        setEditModeStatus(true)
     }
 
     const deActivateEditMode = () => {
-        setEditMode(false)
+        setEditModeStatus(false)
         if (status !== props.status) props.updateStatus(status)
+    }
+
+    const showStatus = () => {
+        if (editModeStatus) {
+            return <input onChange={OnChangeStatus}
+                          value={status}
+                          onBlur={deActivateEditMode}
+                          autoFocus={true}/>
+        } else {
+            return <span onClick={activateEditMode}>{"Status: " + props.status}</span>
+        }
     }
 
     const OnChangeStatus = (e) => {
         const new_status = e.target.value
         setStatus(new_status)
+    }
+
+    const OnChooseFile = (e) => {
+        const photo_file = e.target.files[0]
+        props.uploadPhoto(photo_file)
     }
 
 
@@ -37,31 +51,22 @@ const ProfileInfo = (props) => {
         <div>
             <img src={props.mainImage} alt="main"/>
             <div className={classes.appWrapper}>
-                <div className={classes.nameUser}>{props.profile.fullName}</div>
+                <AboutMe profile={props.profile}
+                         uploadAboutMe={props.uploadAboutMe}
+                         isOwner={props.isOwner}/>
+
                 <div>
                     {
-                        editMode
-                            ? <input onChange={OnChangeStatus} value={status}
-                                     onBlur={deActivateEditMode} autoFocus={true}/>
-                            : <span onClick={activateEditMode}>{"Status: " + props.status}</span>
+                        showStatus()
                     }
+                </div>
+                <div className={classes.avaImage}>
+                    {props.isFetching ? <Preloader/> :
+                        <img src={props.profile.photos.large || default_avatar} alt="avatar"/>}
+                </div>
+                {props.isOwner && <input type="file" onChange={OnChooseFile}/>}
 
 
-                </div>
-                <div className={classes.avaImage}><img src={props.profile.photos.large || default_avatar}
-                                                       alt="avatar"/>
-                </div>
-                <div className={classes.aboutUser}>About me:<br/>{props.profile.aboutMe}</div>
-                <div className={classes.contacts}>
-                    My contacts:
-                    <ul>
-                        <li>Facebook: {props.profile.contacts.facebook || "None"}</li>
-                        <li>WebSite: {props.profile.contacts.website || "None"}</li>
-                        <li>vk: {props.profile.contacts.vk || "None"}</li>
-                        <li>github: {props.profile.contacts.github || "None"}</li>
-                    </ul>
-                </div>
-                <div>{(props.profile.lookingForAJob) ? 'I search work' : 'I dont search work'}</div>
             </div>
         </div>
 
@@ -70,3 +75,4 @@ const ProfileInfo = (props) => {
 }
 
 export default ProfileInfo
+

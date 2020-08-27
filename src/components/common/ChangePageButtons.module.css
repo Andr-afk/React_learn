@@ -8,6 +8,6 @@
     box-shadow: 2px 4px 5px #000;
 }
 
-.secondButton:active{
-    background-color: white;
+.activeButton{
+    background-color: black;
 }

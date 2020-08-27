@@ -5,12 +5,11 @@ import User from "./User";
 
 
 const FindUsers = (props) => {
-    const {users, currentPage, OnChangePages, OnFollow, OnUnfollow, followingProgress} = props
+    const {users, usersCount, portionSize, OnFollow, OnUnfollow, followingProgress} = props
 
     return (
         <div className={classes.wrapper}>
-            {/*<ChangePageButton OnChangePages={OnChangePages} currentPage={currentPage}/>*/}
-            <Paginator portionSize={10} totalCount={900} OnChangePages={props.OnChangePages}/>
+            <Paginator portionSize={portionSize} totalCount={usersCount} OnClickButton={props.OnChangePages} currentPage={props.currentPage}/>
             <div className={classes.Users}>
                 {users.map((element) => (<User key={element.id}
                                                user={element}

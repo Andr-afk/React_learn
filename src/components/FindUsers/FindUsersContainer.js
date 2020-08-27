@@ -34,8 +34,8 @@ const FindUsersContainer = ({pageSize, currentPage, getUsers, users, ...props}) 
 
 
     const OnChangePages = (e)=>{
-        const numberPage = Number(e.target.innerText)
-        getUsers(pageSize, numberPage)
+        const number_page = Number(e.target.innerText)
+        getUsers(pageSize, number_page)
     }
 
     return (
@@ -44,6 +44,8 @@ const FindUsersContainer = ({pageSize, currentPage, getUsers, users, ...props}) 
                 props.isFetching
                     ? <Preloader className={classes.preloader}/>
                     : <FindUsers users={users}
+                                 usersCount={props.usersCount}
+                                 portionSize={props.portionSize}
                                  currentPage={currentPage}
                                  OnChangePages={OnChangePages}
                                  OnFollow={OnFollow}
@@ -64,6 +66,7 @@ let mapStateToProps = (state) => {
         usersCount: takeUsersCount(state),
         currentPage: takeCurrentPage(state),
         isFetching: takeIsFetching(state),
+        portionSize: state.FindUsersPage.portionSize,
         followingProgress: takeFollowingProgress(state),
 
     }

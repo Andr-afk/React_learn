@@ -1,49 +1,39 @@
 import React from "react";
-import {reduxForm} from "redux-form";
-import {loginMeThunkCreator} from "../../redux/auth-reducer";
+import {getCaptchaURLThunkCreator, loginMeThunkCreator} from "../../redux/auth-reducer";
 import {connect} from "react-redux";
-import {CreateField, Input} from "../common/FormController/FormController";
-import {isEmail, required} from "../../utilits/validators";
+import LoginForm from "./LoginForm";
+import {Redirect} from "react-router-dom";
 
 
-const LoginForm = ({handleSubmit, error}) => {
-    return (
-        <form onSubmit={handleSubmit}>
-            {CreateField("login", Input, "text", [required, isEmail], "login")}
-            {CreateField("password", Input, "password", required, "password")}
-            {CreateField("rememberMe", Input, "checkbox", null, null, null, "remember me")}
-            <div>
-                <button>Login</button>
-            </div>
+const Login = ({loginMe, captchaURL, getCaptchaURL, isAuth}) => {
 
-            {error && <div>{error}</div>}
-        </form>
-    )
-}
-
-const LoginReduxForm = reduxForm({form: 'login'})(LoginForm)
-
-const Login = ({loginMe}) => {
-
-    const onSubmit = (formData) => {
+    const onSubmit = async (formData) => {
         loginMe(formData)
     }
 
-    return (
-        <div>
-            <h2>Login</h2>
-            <LoginReduxForm onSubmit={onSubmit}/>
-        </div>
-    )
+    if (isAuth) return <Redirect to="/profile"/>
+    else {
+        return (
+            <div>
+                <h2>Login</h2>
+                <LoginForm onSubmit={onSubmit}
+                           captchaURL={captchaURL}
+                           getCaptchaURL={getCaptchaURL}/>
+            </div>
+        )
+    }
+
 }
 
 
 let mapStateToProps = (state) => ({
-    isAuth: state.auth.isAuth
+    isAuth: state.auth.isAuth,
+    captchaURL: state.auth.captchaURL
 })
 
 let mapDispatchToProps = {
-    loginMe: loginMeThunkCreator
+    loginMe: loginMeThunkCreator,
+    getCaptchaURL: getCaptchaURLThunkCreator
 }
 
 

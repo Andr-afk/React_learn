@@ -32,6 +32,19 @@ export const profileAPI = {
     async updateStatus(status_text){
         let response = await instance.put('/profile/status', {status: status_text})
         return response.data
+    },
+
+    async uploadPhoto(photo_file){
+        let formData = new FormData()
+        formData.append("image", photo_file)
+
+        let response = await instance.put("/profile/photo", formData, {headers:{'content-type': 'multipart/form-data'}})
+        return response.data
+    },
+
+    async uploadAboutMe(object_data){
+        let response = await instance.put("/profile", object_data)
+        return response.data
     }
 }
 
@@ -42,8 +55,8 @@ export const AuthAPI = {
         return response.data
     },
 
-    async loginMe(email, password, rememberMe){
-        let response = await instance.post("/auth/login", {email, password, rememberMe})
+    async loginMe(email, password, rememberMe, captcha){
+        let response = await instance.post("/auth/login", {email, password, rememberMe, captcha})
         return response.data
     },
 
@@ -54,4 +67,9 @@ export const AuthAPI = {
 
 }
 
-
+export const securityAPI = {
+    async getCaptchaURL(){
+        const response = await instance.get("security/get-captcha-url")
+        return response.data
+    }
+}
