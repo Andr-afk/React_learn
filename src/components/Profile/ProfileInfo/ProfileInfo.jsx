@@ -24,7 +24,7 @@ const ProfileInfo = (props) => {
     }
 
     const showStatus = () => {
-        if (editModeStatus) {
+        if (editModeStatus && props.isOwner) {
             return <input onChange={OnChangeStatus}
                           value={status}
                           onBlur={deActivateEditMode}
@@ -55,11 +55,7 @@ const ProfileInfo = (props) => {
                          uploadAboutMe={props.uploadAboutMe}
                          isOwner={props.isOwner}/>
 
-                <div>
-                    {
-                        showStatus()
-                    }
-                </div>
+                <div>{showStatus()}</div>
                 <div className={classes.avaImage}>
                     {props.isFetching ? <Preloader/> :
                         <img src={props.profile.photos.large || default_avatar} alt="avatar"/>}
@@ -74,5 +70,5 @@ const ProfileInfo = (props) => {
     )
 }
 
-export default ProfileInfo
+export default React.memo(ProfileInfo)
 

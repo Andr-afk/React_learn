@@ -3,7 +3,7 @@ import classes from './Dialogs.module.css'
 import Message from "./Message/Message";
 import Dialog from "./Dialog/Dialog";
 import {Redirect} from "react-router-dom";
-import {Field, reduxForm, reset} from "redux-form";
+import {Field, reduxForm} from "redux-form";
 import {maxLength, required} from "../../utilits/validators"
 import {Textarea} from "../common/FormController/FormController";
 
@@ -20,8 +20,9 @@ const Dialogs = (props) => {
 
 
     let onSubmit = (formData)=>{
+        debugger
         props.addMessage(formData.DialogText)
-        props.dispatch(reset("Send_Message"))
+        props.clearForm("Send_Message")
     }
 
     return (
@@ -38,8 +39,8 @@ const Dialogs = (props) => {
     )
 }
 
-const maxLength10 = maxLength(10)
 
+const maxLength10 = maxLength(10)
 
 const DialogsForm = (props)=>{
     const {handleSubmit} = props
@@ -54,5 +55,5 @@ const DialogsForm = (props)=>{
 
 const DialogsFormRedux = reduxForm({form: "Send_Message"})(DialogsForm)
 
-export default Dialogs
+export default React.memo(Dialogs)
 

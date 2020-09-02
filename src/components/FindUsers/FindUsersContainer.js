@@ -20,7 +20,7 @@ const FindUsersContainer = ({pageSize, currentPage, getUsers, users, ...props}) 
 
     useEffect(() => {
         getUsers(pageSize, currentPage)
-    }, [])
+    }, [pageSize, currentPage, getUsers])
 
     const OnFollow = (e) => {
         let userID = Number(e.target.id)

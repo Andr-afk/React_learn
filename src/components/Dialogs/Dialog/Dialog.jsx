@@ -12,4 +12,4 @@ const Dialog = (props) => {
     )
 }
 
-export default Dialog
+export default React.memo(Dialog)

@@ -1,6 +1,6 @@
 import React, {Suspense, useEffect} from 'react'; // если директория не указывается, значит импортируется из node_modules
 import './App.css';
-import {BrowserRouter, Route} from "react-router-dom";
+import {Switch, BrowserRouter, Route, Redirect} from "react-router-dom";
 import NavContainer from './components/Nav/NavContainer';
 import News from "./components/News/News"
 import Music from "./components/Music/Music";
@@ -31,7 +31,7 @@ const App = ({initialized, initializeUser}) => {
     useEffect(() => {
         if (!initialized) initializeUser()
 
-    }, [initialized])
+    }, [initialized, initializeUser])
 
     if (!initialized) return <Preloader/>
 
@@ -41,13 +41,18 @@ const App = ({initialized, initializeUser}) => {
             <NavContainer/>
             <Suspense fallback={<Preloader/>}>
                 <div className="app-wrapper-content">
-                    <Route path="/profile/:userID?" render={() => <ProfileContainer/>}/>
-                    <Route path="/dialogs" render={() => <DialogsContainer/>}/>
-                    <Route path="/news" render={() => <News/>}/>
-                    <Route path="/music" render={() => <Music/>}/>
-                    <Route path="/settings" render={() => <Settings/>}/>
-                    <Route path="/find_users" render={() => <FindUsersContainer/>}/>
-                    <Route path="/login" render={() => <LoginContainer/>}/>
+                    <Switch>
+                        <Route exact path="/" render={() => <Redirect to="/profile"/>}/>
+                        <Route path="/profile/:userID?" render={() => <ProfileContainer/>}/>
+                        <Route path="/dialogs" render={() => <DialogsContainer/>}/>
+                        <Route path="/news" render={() => <News/>}/>
+                        <Route path="/music" render={() => <Music/>}/>
+                        <Route path="/settings" render={() => <Settings/>}/>
+                        <Route path="/find_users" render={() => <FindUsersContainer/>}/>
+                        <Route path="/login" render={() => <LoginContainer/>}/>
+                        <Route render={() => <div>Error 404 not found</div>}/>
+                    </Switch>
+
                 </div>
             </Suspense>
             <footer>Something text in the end</footer>

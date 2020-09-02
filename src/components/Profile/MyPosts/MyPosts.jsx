@@ -1,7 +1,7 @@
 import React from 'react'
 import classes from './MyPosts.module.css'
 import Post from './Post/Post.jsx'
-import {Field, reduxForm} from "redux-form";
+import {Field, reduxForm, reset} from "redux-form";
 import {maxLength, required} from "../../../utilits/validators";
 import {Textarea} from "../../common/FormController/FormController"
 
@@ -14,6 +14,7 @@ const MyPosts = props => {
 
     const onSubmit = (formData) => {
         props.addPost(formData.PostText)
+        props.clearForm('add_post')
     }
 
     return (
@@ -28,7 +29,7 @@ const MyPosts = props => {
 }
 
 
-export default MyPosts
+export default React.memo(MyPosts)
 
 
 const maxLength100 = maxLength(100)

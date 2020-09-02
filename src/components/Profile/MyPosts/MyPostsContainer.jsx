@@ -1,20 +1,19 @@
+import React from "react";
 import {addPost} from "../../../redux/profilePage-reducer";
 import MyPosts from "./MyPosts";
 import {connect} from "react-redux";
+import {clearForm} from "../../common/FormController/helperForForms";
 
 
-let mapStateToProps = (state)=>({
-    posts: state.ProfilePage.posts,
-    newPostText: state.ProfilePage.newPostText
+let mapStateToProps = (state) => ({
+    posts: state.ProfilePage.posts
 })
 
-let mapDispatchToProps = ({
-    addPost
+let mapDispatchToProps = (dispatch) => ({
+    addPost: (text)=>{dispatch(addPost(text))},
+    clearForm: (formName)=>{dispatch(clearForm(formName))}
 })
 
 
-const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps)(MyPosts)
-
-
-export default MyPostsContainer
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(MyPosts))
 

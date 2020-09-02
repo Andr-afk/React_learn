@@ -43,4 +43,4 @@ const User = ({user, OnUnfollow, OnFollow, followingProgress}) => {
     )
 }
 
-export default User
+export default React.memo(User)

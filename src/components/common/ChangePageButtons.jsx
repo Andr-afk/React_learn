@@ -1,38 +1,45 @@
 import React, {useEffect, useState} from "react";
 import style from "./ChangePageButtons.module.css"
+import cn from "classnames"
 
-const Paginator = ({totalCount, ...props}) => {
+const Paginator = ({totalCount, currentPage, portionSize, ...props}) => {
 
-    const [leftPosition, setLeftPosition] = useState(props.currentPage)
-    const [rightPosition, setRightPosition] = useState(props.portionSize + leftPosition)
+    const [leftPosition, setLeftPosition] = useState(1)
+    const [rightPosition, setRightPosition] = useState(portionSize + leftPosition)
     const [count_portion, setCountPortion] = useState([])
 
     useEffect(() => {
-        if (count_portion.length !== totalCount / props.portionSize) {
+        if (count_portion.length !== totalCount / portionSize) {
             let count = []
-            for (let i = 1; i <= Math.ceil(totalCount / props.portionSize); i++) {
+            for (let i = 1; i <= Math.ceil(totalCount / portionSize); i++) {
                 count.push(i)
             }
             setCountPortion(count)
         }
 
-    }, [totalCount, props.portionSize])
+    }, [totalCount, portionSize, count_portion.length])
 
 
     const showButtons = count_portion
         .filter(value => (value >= leftPosition && value <= rightPosition))
-        .map(value => <button key={value} className={style.secondButton} onClick={props.OnClickButton}>{value}</button>)
+        .map(value => <button key={value}
+                              className={cn(style.secondButton, value === currentPage ? style.active : "")}
+                              onClick={props.OnClickButton}>{value}</button>)
 
 
     const changeNumbers = (operator) => {
         if (operator === "+") {
             setLeftPosition(rightPosition + 1)
-            setRightPosition(props.portionSize + rightPosition)
+            setRightPosition(portionSize + rightPosition)
         } else if (operator === "-") {
-            setLeftPosition(leftPosition - props.portionSize)
-            setRightPosition(rightPosition - props.portionSize)
+            setLeftPosition(leftPosition - portionSize)
+            setRightPosition(rightPosition - portionSize)
         }
+    }
 
+    const x = () =>{
+        setLeftPosition(currentPage)
+        setRightPosition(currentPage + portionSize)
     }
 
     return (
@@ -40,7 +47,7 @@ const Paginator = ({totalCount, ...props}) => {
             {leftPosition > 1 && <button onClick={() => changeNumbers("-")}>Prev</button>}
             {showButtons}
             {rightPosition < count_portion.length && <button onClick={() => changeNumbers("+")}>Next</button>}
-            <div>Current page: {props.currentPage}</div>
+            <div onClick={x}>Current page: {currentPage}</div>
         </div>
 
     )

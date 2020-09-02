@@ -38,7 +38,9 @@ const ProfileContainer = ({match, authorizedUserID, getProfile, ...props}) => {
         }
 
         getProfile(userID)
-    }, [match.params.userID])
+
+    }, [match.params.userID, authorizedUserID, getProfile])
+
 
     return (
         <Profile profile={props.profile}

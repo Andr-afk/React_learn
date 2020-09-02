@@ -2,12 +2,14 @@
     border: none;
     background-color: #C1C1C1;
     margin: 1px;
+    width: 33px;
 }
 
 .secondButton:hover{
     box-shadow: 2px 4px 5px #000;
 }
 
-.activeButton{
-    background-color: black;
+.secondButton.active{
+    background-color: #E2E2E2;
+    font-weight: bold;
 }

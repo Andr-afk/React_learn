@@ -22,5 +22,5 @@ const FindUsers = (props) => {
 
 }
 
-export default FindUsers
+export default React.memo(FindUsers)
 

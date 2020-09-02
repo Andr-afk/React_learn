@@ -4,13 +4,13 @@ import {connect} from "react-redux";
 import {authMeThunkCreator, setAuthUserData, setImagesUsers} from "../../redux/auth-reducer";
 
 
-const HeaderContainer = ({isAuth, ...props})=>{
+const HeaderContainer = ({isAuth, authMe, ...props})=>{
     useEffect(()=>{
-        if(!isAuth) props.authMe()
-    }, [isAuth])
+        if(!isAuth) authMe()
+    }, [isAuth, authMe])
 
     return(
-        <Header isAuth={isAuth} {...props}/>
+        <Header isAuth={isAuth} authMe={authMe}{...props}/>
     )
 }
 
