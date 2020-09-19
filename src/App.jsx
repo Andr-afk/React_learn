@@ -65,7 +65,7 @@ const AppContainer = compose(
 )(App)
 
 
-const EnterPoint = (props) => {
+const EnterPoint = () => {
     return (
         <BrowserRouter>
             <Provider store={store}>
